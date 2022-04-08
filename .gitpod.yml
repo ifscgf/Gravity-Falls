@@ -1,6 +1,6 @@
 ports:
   - port: 3000
-    onOpen: open browser
+    onOpen: open-browser
 tasks:
   - init: npm install
     command: node Servidor.js
