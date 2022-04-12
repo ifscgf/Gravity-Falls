@@ -2,25 +2,13 @@ import { cena2 } from "./cena2.js";
 
 var cena1 = new Phaser.Scene("Cena 1");
 
-var player1;
-var player2;
-var door;
-var door1;
-var door2;
-var door3;
-var door4;
-var door_opened;
-var door_opened1;
-var door_opened2;
-var door_opened3;
-var door_opened4;
+var MabelPines;
 var key;
 var key1;
 var key2;
 var key3;
 var key4;
 var win1 = false;
-var win2 = false;
 var saída;
 //var ambiente;
 var cursors;
@@ -50,39 +38,9 @@ cena1.preload = function () {
   this.load.tilemapTiledJSON("mapa", "./assets/labirinto.json");
 
   // personagens
-  this.load.spritesheet("player1", "./assets/sprite1.png", {
-    frameWidth: 16,
-    frameHeight: 16,
-  });
-
-  this.load.spritesheet("player2", "./assets/sprite2.png", {
-    frameWidth: 15,
-    frameHeight: 16,
-  });
-
-  this.load.spritesheet("door", "./assets/door.png", {
-    frameWidth: 32,
-    frameHeight: 26,
-  });
-
-  this.load.spritesheet("door1", "./assets/door.png", {
-    frameWidth: 32,
-    frameHeight: 26,
-  });
-
-  this.load.spritesheet("door2", "./assets/door.png", {
-    frameWidth: 32,
-    frameHeight: 26,
-  });
-
-  this.load.spritesheet("door3", "./assets/door.png", {
-    frameWidth: 32,
-    frameHeight: 26,
-  });
-
-  this.load.spritesheet("door4", "./assets/door.png", {
-    frameWidth: 32,
-    frameHeight: 26,
+  this.load.spritesheet("MabelPines", "./assets/MabelPines.png", {
+    frameWidth: 17,
+    frameHeight: 24,
   });
 
   this.load.spritesheet("saída", "./assets/saída.png", {
@@ -119,12 +77,6 @@ cena1.preload = function () {
 cena1.create = function () {
   timer = -1;
 
-  door_opened = false;
-  door_opened1 = false;
-  door_opened2 = false;
-  door_opened3 = false;
-  door_opened4 = false;
-
   //ambiente = this.sound.add("ambiente");
 
   //ambiente.play();
@@ -144,18 +96,6 @@ cena1.create = function () {
   // colisão com camadas
   worldLayer.setCollisionByProperty({ collides: true });
 
-  //portas
-  door = this.physics.add.sprite(688, 560, "door", 0);
-  door.body.setImmovable(true);
-  door1 = this.physics.add.sprite(176, 624, "door1", 0);
-  door1.body.setImmovable(true);
-  door2 = this.physics.add.sprite(208, 240, "door2", 0);
-  door2.body.setImmovable(true);
-  door3 = this.physics.add.sprite(752, 112, "door3", 0);
-  door3.body.setImmovable(true);
-  door4 = this.physics.add.sprite(400, 16, "door4", 0);
-  door4.body.setImmovable(true);
-
   //chaves
   key = this.physics.add.sprite(718, 400, "key");
   key1 = this.physics.add.sprite(46, 752, "key1");
@@ -167,12 +107,11 @@ cena1.create = function () {
   saída = this.physics.add.sprite(400, 10, "saída");
 
   // spawn
-  player1 = this.physics.add.sprite(400, 768, "player1", 0);
-  player2 = this.physics.add.sprite(752, 48, "player2", 0);
+  MabelPines = this.physics.add.sprite(400, 768, "MabelPines", 0);
 
   //abrir portas
   var door_collider = this.physics.add.collider(
-    player1,
+    MabelPines,
     door,
     null,
     function () {
@@ -189,7 +128,7 @@ cena1.create = function () {
     this
   );
   var door1_collider = this.physics.add.collider(
-    player1,
+    MabelPines,
     door1,
     null,
     function () {
@@ -206,7 +145,7 @@ cena1.create = function () {
     this
   );
   var door2_collider = this.physics.add.collider(
-    player1,
+    MabelPines,
     door2,
     null,
     function () {
@@ -267,27 +206,27 @@ cena1.create = function () {
   );
 
   var door4_collider2 = this.physics.add.collider(
-    player1,
+    MabelPines,
     door4,
     null
   );
 
   //coletar chaves
-  this.physics.add.overlap(player1, key, collectKey, null, this);
-  this.physics.add.overlap(player1, key1, collectKey, null, this);
-  this.physics.add.overlap(player1, key2, collectKey, null, this);
-  this.physics.add.overlap(player1, key3, collectKey, null, this);
+  this.physics.add.overlap(MabelPines, key, collectKey, null, this);
+  this.physics.add.overlap(MabelPines, key1, collectKey, null, this);
+  this.physics.add.overlap(MabelPines, key2, collectKey, null, this);
+  this.physics.add.overlap(MabelPines, key3, collectKey, null, this);
   this.physics.add.overlap(player2, key4, collectKey2, null, this);
 
-  this.physics.add.overlap(player1, saída, winGame1, null, this);
+  this.physics.add.overlap(MabelPines, saída, winGame1, null, this);
   this.physics.add.overlap(player2, saída, winGame2, null, this);
 
   //frames das animações jogador 1
   this.anims.create({
     key: "left1",
-    frames: this.anims.generateFrameNumbers("player1", {
-      start: 3,
-      end: 5,
+    frames: this.anims.generateFrameNumbers("MabelPines", {
+      start: 0,
+      end: 8,
     }),
     frameRate: 7,
     repeat: -1,
@@ -295,8 +234,8 @@ cena1.create = function () {
 
   this.anims.create({
     key: "right1",
-    frames: this.anims.generateFrameNumbers("player1", {
-      start: 6,
+    frames: this.anims.generateFrameNumbers("MabelPines", {
+      start: 0,
       end: 8,
     }),
     frameRate: 7,
@@ -305,8 +244,9 @@ cena1.create = function () {
 
   this.anims.create({
     key: "stopped1",
-    frames: this.anims.generateFrameNumbers("player1", {
-      frames: [2, 1],
+    frames: this.anims.generateFrameNumbers("MabelPines", {
+      start: 0,
+      end: 8,
     }),
     frameRate: 3,
     repeat: -1,
@@ -314,9 +254,9 @@ cena1.create = function () {
 
   this.anims.create({
     key: "up1",
-    frames: this.anims.generateFrameNumbers("player1", {
-      start: 9,
-      end: 11,
+    frames: this.anims.generateFrameNumbers("MabelPines", {
+      start: 0,
+      end: 10,
     }),
     frameRate: 7,
     repeat: -1,
@@ -324,9 +264,9 @@ cena1.create = function () {
 
   this.anims.create({
     key: "down1",
-    frames: this.anims.generateFrameNumbers("player1", {
+    frames: this.anims.generateFrameNumbers("MabelPines", {
       start: 0,
-      end: 2,
+      end: 8,
     }),
     frameRate: 7,
     repeat: -1,
@@ -539,9 +479,9 @@ cena1.create = function () {
       player2.x = x + 8;
       player2.y = y + 7.5;
     } else if (jogador === 2) {
-      player1.setFrame(frame);
-      player1.x = x + 8;
-      player1.y = y + 8;
+      MabelPines.setFrame(frame);
+      MabelPines.x = x + 8;
+      MabelPines.y = y + 8;
     }
   });
 };
@@ -550,36 +490,36 @@ cena1.update = function (time, delta) {
   //Sincronizar direcionais com movimentos
   if (jogador === 1 && timer >= 0) {
     if (cursors.left.isDown) {
-      player1.body.setVelocityX(-150);
+      MabelPines.body.setVelocityX(-150);
     } else if (cursors.right.isDown) {
-      player1.body.setVelocityX(150);
+      MabelPines.body.setVelocityX(150);
     } else {
-      player1.body.setVelocityX(0);
+      MabelPines.body.setVelocityX(0);
     }
 
     if (cursors.up.isDown) {
-      player1.body.setVelocityY(-150);
+      MabelPines.body.setVelocityY(-150);
     } else if (cursors.down.isDown) {
-      player1.body.setVelocityY(150);
+      MabelPines.body.setVelocityY(150);
     } else {
-      player1.body.setVelocityY(0);
+      MabelPines.body.setVelocityY(0);
     }
 
     if (cursors.left.isDown) {
-      player1.anims.play("left1", true);
+      MabelPines.anims.play("left1", true);
     } else if (cursors.right.isDown) {
-      player1.anims.play("right1", true);
+      MabelPines.anims.play("right1", true);
     } else if (cursors.up.isDown) {
-      player1.anims.play("up1", true);
+      MabelPines.anims.play("up1", true);
     } else if (cursors.down.isDown) {
-      player1.anims.play("down1", true);
+      MabelPines.anims.play("down1", true);
     } else {
-      player1.anims.play("stopped1", true);
+      MabelPines.anims.play("stopped1", true);
     }
     this.socket.emit("estadoDoJogador", {
-      frame: player1.anims.getFrameName(),
-      x: player1.body.x,
-      y: player1.body.y,
+      frame: MabelPines.anims.getFrameName(),
+      x: MabelPines.body.x,
+      y: MabelPines.body.y,
     });
   } else if (jogador === 2 && timer >= 0) {
     if (cursors.left.isDown) {
@@ -628,7 +568,7 @@ cena1.update = function (time, delta) {
   }
 };
 
-function collectKey(player1, key) {
+function collectKey(MabelPines, key) {
   //chave some quando coletada
   key.disableBody(true, true);
 
@@ -644,7 +584,7 @@ function collectKey2(player2, key) {
   inventoryText2.setText(inventory2);
 }
 
-function winGame1(player1, win1) {
+function winGame1(MabelPines, win1) {
   win1 === true;
 }
 
