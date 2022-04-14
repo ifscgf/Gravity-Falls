@@ -33,9 +33,10 @@ cena1.preload = function () {
   //this.load.audio("ambiente", "./sounds/ambiente.mp3");
 
   // tilesets e mapa
-  this.load.image("tilesets1", "./assets/tilesets1.png");
-  this.load.image("tilesets2", "./assets/tilesets2.png");
-  this.load.tilemapTiledJSON("mapa", "./assets/labirinto.json");
+  this.load.image("ground", "./assets/ground.jpg");
+  //this.load.image("tilesets2", "./assets/tilesets2.png");
+  // Excluir dps
+  this.load.tilemapTiledJSON("mapa", "./assets/ground.jpg");
 
   // personagens
   this.load.spritesheet("MabelPines", "./assets/MabelPines.png", {
@@ -85,8 +86,8 @@ cena1.create = function () {
   // mapa
   const map = this.make.tilemap({ key: "mapa" });
 
-  const tileset = map.addTilesetImage("assets", "tilesets1");
-  const tileset2 = map.addTilesetImage("assets2", "tilesets2");
+  const tileset = map.addTilesetImage("assets", "ground");
+  //const tileset2 = map.addTilesetImage("assets2", "tilesets2");
 
   // camadas
   const belowLayer1 = map.createLayer("belowlayer1", tileset, 0, 0);
