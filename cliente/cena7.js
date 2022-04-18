@@ -30,6 +30,55 @@ cena7.create = function () {
   //const map = this.make.tilemap({ key: "mapa" });
 
   this.add.image(400, 400, "ground");
+
+  //personagem Bill Cipher
+
+  billcipher = this.physics.add.sprite(400, 300, "billcipher");
+
+  this.anims.create({
+    key: "left1",
+    frames: this.anims.generateFrameNumbers("billcipher", {
+      frames: [6, 7],
+    }),
+    frameRate: 7,
+    repeat: -1,
+  });
+
+  this.anims.create({
+    key: "right1",
+    frames: this.anims.generateFrameNumbers("plbillcipher", {
+      frames: [3, 4],
+    }),
+    frameRate: 7,
+    repeat: -1,
+  });
+
+  this.anims.create({
+    key: "stopped1",
+    frames: this.anims.generateFrameNumbers("billcipher", {
+      frames: [1, 2, 8],
+    }),
+    frameRate: 3,
+    repeat: -1,
+  });
+
+  this.anims.create({
+    key: "up1",
+    frames: this.anims.generateFrameNumbers("billcipher", {
+      frames: [9, 11],
+    }),
+    frameRate: 7,
+    repeat: -1,
+  });
+
+  this.anims.create({
+    key: "down1",
+    frames: this.anims.generateFrameNumbers("billcipher", {
+      frames: [0, 5],
+    }),
+    frameRate: 7,
+    repeat: -1,
+  });
 };
 
 cena7.update = function () {};
