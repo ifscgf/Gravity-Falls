@@ -24,6 +24,6 @@ cena1.create = function () {
   });
 };
 
-cena0.updade = function () {};
+cena1.updade = function () {};
 
 export { cena1 };
