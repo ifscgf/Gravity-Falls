@@ -11,9 +11,13 @@ cena2.create = function () {
   this.add.image(840, 368, "final");
   var button = this.add.image(900, 904, "voltar").setInteractive();
 
-  button.on("pointerdown", function () {
-    this.scene.start(cena1);
-  });
+  button.on(
+    "pointerdown",
+    function () {
+      this.scene.start(cena1);
+    },
+    this
+  );
 };
 
 cena2.update = function () {};
