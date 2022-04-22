@@ -1,3 +1,5 @@
+//import { cena2 } from "./cena2.js";
+
 var cena7 = new Phaser.Scene("Cena 7");
 
 var ice_servers = {
