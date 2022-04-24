@@ -1,6 +1,6 @@
 import { cena0 } from "./cena0.js";
 import { cena1 } from "./cena1.js";
-//import { cena2 } from "./cena2.js";
+import { cena2 } from "./cena2.js";
 //import { cena3 } from "./cena3.js";
 //import { cena7 } from "./cena7.js";
 
@@ -23,7 +23,7 @@ const config = {
     width: 800,
     height: 800,
   },
-  scene: [cena0, cena1],
+  scene: [cena0, cena1, cena2],
 };
 
 const game = new Phaser.Game(config);

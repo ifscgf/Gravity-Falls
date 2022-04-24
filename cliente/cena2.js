@@ -1,4 +1,4 @@
-import { cena7 } from "./cena7.js";
+import { cena0 } from "./cena0.js";
 
 var cena2 = new Phaser.scene("cena2");
 
@@ -14,7 +14,7 @@ cena2.create = function () {
   button.on(
     "pointerdown",
     function () {
-      this.scene.start(cena1);
+      this.scene.start(cena0);
     },
     this
   );
