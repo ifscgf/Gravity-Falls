@@ -1,6 +1,6 @@
 import { cena0 } from "./cena0.js";
 
-var cena2 = new Phaser.scene("cena2");
+var cena2 = new Phaser.Scene("cena2");
 
 cena2.preload = function () {
   this.load.image("final", "assets/cena2.png");
