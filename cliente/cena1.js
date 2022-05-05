@@ -1,4 +1,4 @@
-//import { cena2 } from "./cena2.js";
+import { cena2 } from "./cena2.js";
 
 var cena1 = new Phaser.Scene("Cena 1");
 
@@ -23,6 +23,7 @@ var key4;
 var win1 = false;
 var win2 = false;
 var saída;
+var coleta;
 //var ambiente;
 var cursors;
 var timer;
@@ -50,9 +51,10 @@ cena1.preload = function () {
   this.load.image("tilesets2", "./assets/tilesets2.png");
   this.load.image("casa", "./assets/casa.png");
   this.load.tilemapTiledJSON("mapa", "./assets/labirinto.json");
+  this.load.audio("coleta", "./sounds/coleta.mp3");
 
   //casa
-  this.load.spritesheet("casa", "./assets/casa.png", {
+  this.load.image("casa", "./assets/casa.png", {
     frameWidth: 32,
     frameHeight: 32,
   });
@@ -68,6 +70,7 @@ cena1.preload = function () {
     frameHeight: 16,
   });
 
+  /*
   this.load.spritesheet("door", "./assets/door.png", {
     frameWidth: 32,
     frameHeight: 26,
@@ -97,28 +100,28 @@ cena1.preload = function () {
     frameWidth: 19,
     frameHeight: 18,
   });
-
+*/
   this.load.spritesheet("key", "./assets/livro.png", {
     frameWidth: 1000,
     frameHeight: 1000,
   });
 
-  this.load.spritesheet("key1", "./assets/key.png", {
+  this.load.spritesheet("key1", "./assets/livro.png", {
     frameWidth: 16,
     frameHeight: 16,
   });
 
-  this.load.spritesheet("key2", "./assets/key.png", {
+  this.load.spritesheet("key2", "./assets/livro.png", {
     frameWidth: 16,
     frameHeight: 16,
   });
 
-  this.load.spritesheet("key3", "./assets/key.png", {
+  this.load.spritesheet("key3", "./assets/livro.png", {
     frameWidth: 16,
     frameHeight: 16,
   });
 
-  this.load.spritesheet("key4", "./assets/key.png", {
+  this.load.spritesheet("key4", "./assets/livro.png", {
     frameWidth: 16,
     frameHeight: 16,
   });
@@ -134,6 +137,7 @@ cena1.create = function () {
   door_opened4 = false;
 
   //ambiente = this.sound.add("ambiente");
+  coleta = this.sound.add("coleta");
 
   //ambiente.play();
   //ambiente.setLoop(true);
@@ -161,6 +165,7 @@ cena1.create = function () {
   //casaLayer.setCollisionByProperty({ collides: true });
 
   //portas
+  /*
   door = this.physics.add.sprite(688, 560, "door", 0);
   door.body.setImmovable(true);
   door1 = this.physics.add.sprite(176, 624, "door1", 0);
@@ -170,14 +175,14 @@ cena1.create = function () {
   door3 = this.physics.add.sprite(752, 112, "door3", 0);
   door3.body.setImmovable(true);
   door4 = this.physics.add.sprite(400, 16, "door4", 0);
-  door4.body.setImmovable(true);
+  door4.body.setImmovable(true);*/
 
   //chaves
   key = this.physics.add.sprite(718, 400, "key").setScale(0.01);
-  key1 = this.physics.add.sprite(46, 752, "key1");
-  key2 = this.physics.add.sprite(494, 208, "key2");
-  key3 = this.physics.add.sprite(654, 272, "key3");
-  key4 = this.physics.add.sprite(686, 48, "key4");
+  key1 = this.physics.add.sprite(46, 752, "key1").setScale(0.01);
+  key2 = this.physics.add.sprite(494, 208, "key2").setScale(0.01);
+  key3 = this.physics.add.sprite(654, 272, "key3").setScale(0.01);
+  key4 = this.physics.add.sprite(686, 48, "key4").setScale(0.01);
 
   //bandeiras
   saída = this.physics.add.sprite(400, 10, "saída");
@@ -281,6 +286,7 @@ cena1.create = function () {
   var door4_collider2 = this.physics.add.collider(player1, door4, null);
 
   //coletar chaves
+
   this.physics.add.overlap(player1, key, collectKey, null, this);
   this.physics.add.overlap(player1, key1, collectKey, null, this);
   this.physics.add.overlap(player1, key2, collectKey, null, this);
@@ -634,7 +640,7 @@ cena1.update = function (time, delta) {
 function collectKey(player1, key) {
   //chave some quando coletada
   key.disableBody(true, true);
-
+  coleta.play();
   inventory += 1;
   inventoryText.setText(inventory);
 }

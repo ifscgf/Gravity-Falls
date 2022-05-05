@@ -1,6 +1,6 @@
-import { cena0 } from "./cena0.js";
+import { cena1 } from "./cena1.js";
 
-var cena2 = new Phaser.scene("cena2");
+var cena2 = new Phaser.Scene("Cena 2");
 
 cena2.preload = function () {
   this.load.image("final", "assets/cena2.png");
@@ -8,13 +8,13 @@ cena2.preload = function () {
 };
 
 cena2.create = function () {
-  this.add.image(840, 368, "final");
-  var button = this.add.image(900, 904, "voltar").setInteractive();
+  this.add.image(400, 400, "final");
+  var button = this.add.image(385, 700, "voltar").setInteractive();
 
   button.on(
     "pointerdown",
     function () {
-      this.scene.start(cena0);
+      this.scene.start(cena1);
     },
     this
   );
