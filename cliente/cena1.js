@@ -177,6 +177,43 @@ cena1.create = function () {
   door4 = this.physics.add.sprite(400, 16, "door4", 0);
   door4.body.setImmovable(true);*/
 
+  // Botão de ativar/desativar tela cheia
+  var button = this.add
+    .image(800 - 16, 16, "fullscreen", 0)
+    .setOrigin(1, 0)
+    .setInteractive();
+
+  // Ao clicar no botão de tela cheia
+  button.on(
+    "pointerup",
+    function () {
+      if (this.scale.isFullscreen) {
+        button.setFrame(0);
+        this.scale.stopFullscreen();
+      } else {
+        button.setFrame(1);
+        this.scale.startFullscreen();
+      }
+    },
+    this
+  );
+
+  // Tecla "F" também ativa/desativa tela cheia
+  var FKey = this.input.keyboard.addKey("F");
+  FKey.on(
+    "down",
+    function () {
+      if (this.scale.isFullscreen) {
+        button.setFrame(0);
+        this.scale.stopFullscreen();
+      } else {
+        button.setFrame(1);
+        this.scale.startFullscreen();
+      }
+    },
+    this
+  );
+
   //chaves
   key = this.physics.add.sprite(718, 400, "key").setScale(0.01);
   key1 = this.physics.add.sprite(46, 752, "key1").setScale(0.01);
