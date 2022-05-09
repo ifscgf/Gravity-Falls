@@ -1,11 +1,11 @@
-import { cena1 } from "../cena1.js";
+import { cena1 } from "./cena1.js";
 
 var cena0 = new Phaser.Scene("Cena 0");
 var abertura;
 
 cena0.preload = function () {
-  this.load.image("abertura", "assets/cena0.png");
-  this.load.image("play", "assets/play.png");
+  this.load.image("abertura", "./assets/cena0.png");
+  this.load.image("play", "./assets/play.png");
   this.load.audio("abertura", "./sounds/abertura.mp3");
   this.load.image("stan", "./assets/stan.png");
 };
