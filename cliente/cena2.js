@@ -3,8 +3,8 @@ import { cena1 } from "./cena1.js";
 var cena2 = new Phaser.Scene("Cena 2");
 
 cena2.preload = function () {
-  this.load.image("final", "assets/cena2.png");
-  this.load.image("voltar", "assets/voltar.png");
+  this.load.image("final", "./assets/cena2.png");
+  this.load.image("voltar", "./assets/voltar.png");
 };
 
 cena2.create = function () {
