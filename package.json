@@ -1,5 +1,24 @@
 {
+  "name": "jogo",
+  "version": "0.1.0",
+  "description": "Projeto desenvolvido na Oitava fase do integrado de Telecomunicações do IFSC São josé",
+  "main": "index.js",
+  "scripts": {
+    "start": "node servidor.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/niiquel/jogo.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/niiquel/jogo/issues"
+  },
+  "homepage": "https://github.com/niiquel/jogo#readme",
   "dependencies": {
-    "express": "^4.17.3"
+    "express": "^4.17.2",
+    "socket.io": "^4.4.1"
   }
 }
