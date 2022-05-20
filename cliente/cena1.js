@@ -157,12 +157,9 @@ cena1.create = function () {
   worldLayer.setCollisionByProperty({ collides: true });
 
   //casa
-  
-  
+
   casa = this.physics.add.sprite(750, 700, "casa", 0).setScale(0.06);
   casa.body.setImmovable(true);
-
-  this.physics.add.collider(casa);
 
   //portas
   /*
@@ -524,6 +521,9 @@ cena1.create = function () {
       cameras.main.setZoom(8);
 
       cameras.main.setBounds(0, 0, 800, 800);
+
+      // Colisão com casa
+      physics.add.collider(player1, casa, null, null, this);
     } else if (jogadores.segundo === self.socket.id) {
       // Define jogador como o segundo
       jogador = 2;
@@ -533,7 +533,10 @@ cena1.create = function () {
 
       // Colisão com camadas 2
       physics.add.collider(player2, worldLayer, null, null, this);
-    };
+
+      // Colisão com casa
+      physics.add.collider(player2, casa, null, null, this);
+    }
 
     // Os dois jogadores estão conectados
     console.log(jogadores);
@@ -546,7 +549,7 @@ cena1.create = function () {
         callbackScope: this,
         loop: true,
       });
-    };
+    }
   });
 
   this.socket.on("offer", (socketId, description) => {
