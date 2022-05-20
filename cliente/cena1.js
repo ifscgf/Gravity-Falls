@@ -22,9 +22,9 @@ var key3;
 var key4;
 var win1 = false;
 var win2 = false;
-var saída;
+var saida;
 var coleta;
-//var ambiente;
+var musicagameplay;
 var cursors;
 var timer;
 var timedEvent;
@@ -44,7 +44,7 @@ const audio = document.querySelector("audio");
 
 cena1.preload = function () {
   // música ambiente
-  //this.load.audio("ambiente", "./sounds/ambiente.mp3");
+  this.load.audio("musicagameplay", "./sounds/musicagameplay.mp3");
 
   // tilesets e mapa
   this.load.image("tilesets1", "./assets/tilesets1.png");
@@ -94,13 +94,13 @@ cena1.preload = function () {
   this.load.spritesheet("door4", "./assets/door.png", {
     frameWidth: 32,
     frameHeight: 26,
-  });
+  });*/
 
-  this.load.spritesheet("saída", "./assets/saída.png", {
+  this.load.spritesheet("saida", "./assets/saida.png", {
     frameWidth: 19,
     frameHeight: 18,
   });
-*/
+
   this.load.spritesheet("key", "./assets/livro.png", {
     frameWidth: 1000,
     frameHeight: 1000,
@@ -136,11 +136,11 @@ cena1.create = function () {
   door_opened3 = false;
   door_opened4 = false;
 
-  //ambiente = this.sound.add("ambiente");
+  musicagameplay = this.sound.add("musicagameplay");
   coleta = this.sound.add("coleta");
 
-  //ambiente.play();
-  //ambiente.setLoop(true);
+  musicagameplay.play();
+  musicagameplay.setLoop(true);
 
   // mapa
   const map = this.make.tilemap({ key: "mapa" });
@@ -157,12 +157,12 @@ cena1.create = function () {
   worldLayer.setCollisionByProperty({ collides: true });
 
   //casa
-  const casaLayer = map.createLayer("casalayer", casa, 1, 1);
-
+  
+  
   casa = this.physics.add.sprite(750, 700, "casa", 0).setScale(0.06);
   casa.body.setImmovable(true);
 
-  //casaLayer.setCollisionByProperty({ collides: true });
+  this.physics.add.collider(casa);
 
   //portas
   /*
@@ -222,7 +222,7 @@ cena1.create = function () {
   key4 = this.physics.add.sprite(686, 48, "key4").setScale(0.01);
 
   //bandeiras
-  saída = this.physics.add.sprite(400, 10, "saída");
+  saida = this.physics.add.sprite(400, 10, "saida");
 
   // spawn
   player1 = this.physics.add.sprite(400, 768, "player1", 0).setScale(0.3);
@@ -330,8 +330,8 @@ cena1.create = function () {
   this.physics.add.overlap(player1, key3, collectKey, null, this);
   this.physics.add.overlap(player2, key4, collectKey2, null, this);
 
-  this.physics.add.overlap(player1, saída, winGame1, null, this);
-  this.physics.add.overlap(player2, saída, winGame2, null, this);
+  this.physics.add.overlap(player1, saida, winGame1, null, this);
+  this.physics.add.overlap(player2, saida, winGame2, null, this);
 
   //frames das animações jogador 1
   this.anims.create({
@@ -533,7 +533,7 @@ cena1.create = function () {
 
       // Colisão com camadas 2
       physics.add.collider(player2, worldLayer, null, null, this);
-    }
+    };
 
     // Os dois jogadores estão conectados
     console.log(jogadores);
@@ -546,7 +546,7 @@ cena1.create = function () {
         callbackScope: this,
         loop: true,
       });
-    }
+    };
   });
 
   this.socket.on("offer", (socketId, description) => {
@@ -666,7 +666,7 @@ cena1.update = function (time, delta) {
   // Se o contador terminar, para a música e segue para a cena 2
   if (timer === 0) {
     if (win1 === true && win2 === true) {
-      //ambiente.stop();
+      musicagameplay.stop();
       this.socket.disconnect();
       this.scene.start(cena2);
       this.scene.stop();
