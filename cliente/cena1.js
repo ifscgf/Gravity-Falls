@@ -1,4 +1,5 @@
 import { cena2 } from "./cena2.js";
+import { cena3 } from "./cena3.js";
 
 var cena1 = new Phaser.Scene("Cena 1");
 
@@ -20,8 +21,8 @@ var key1;
 var key2;
 var key3;
 var key4;
-var win1 = false;
-var win2 = false;
+var win1;
+var win2;
 var saida;
 var coleta;
 var musicagameplay;
@@ -129,6 +130,8 @@ cena1.preload = function () {
 
 cena1.create = function () {
   timer = -1;
+  win1 = false;
+  win2 = false;
 
   door_opened = false;
   door_opened1 = false;
@@ -317,18 +320,23 @@ cena1.create = function () {
     this
   );
 
-  var door4_collider2 = this.physics.add.collider(player1, door4, null);
+  var door4_collider2 = this.physics.add.collider(
+    player1,
+    door4,
+    null,
+    null,
+    this
+  );
 
   //coletar chaves
 
-  this.phsiycs.add.overlap(player1, key, collectKey, null, this);
+  this.physics.add.overlap(player1, key, collectKey, null, this);
   this.physics.add.overlap(player1, key1, collectKey, null, this);
   this.physics.add.overlap(player1, key2, collectKey, null, this);
   this.physics.add.overlap(player1, key3, collectKey, null, this);
   this.physics.add.overlap(player2, key4, collectKey2, null, this);
 
   this.physics.add.overlap(player1, saida, winGame1, null, this);
-  this.physics.add.overlap(player2, saida, winGame2, null, this);
 
   //frames das animações jogador 1
   this.anims.create({
@@ -667,18 +675,18 @@ cena1.update = function (time, delta) {
   }
 
   // Se o contador terminar, para a música e segue para a cena 2
-  if (timer === 1) {
-    if (win1 === true && win2 === true) {
+  if (timer > 0) {
+    if (win1 === true) {
       musicagameplay.stop();
-      this.socket.disconnect();
+      //this.socket.disconnect();
       this.scene.start(cena3);
       this.scene.stop();
-    } else if (timer >= 0) {
-      musicagameplay.stop();
-      this.socket.disconnect();
-      this.scene.start(cena2);
-      this.scene.stop();
     }
+  } else if (timer === 0) {
+    musicagameplay.stop();
+    //this.socket.disconnect();
+    this.scene.start(cena2);
+    this.scene.stop();
   }
 };
 
@@ -698,12 +706,12 @@ function collectKey2(player2, key) {
   inventoryText2.setText(inventory2);
 }
 
-function winGame1(player1, win1) {
-  win1 === true;
+function winGame1(player1, saida) {
+  win1 = true;
 }
 
-function winGame2(player2, win2) {
-  win2 === true;
+function winGame2(player2, saida) {
+  win2 = true;
 }
 
 function countdown() {
