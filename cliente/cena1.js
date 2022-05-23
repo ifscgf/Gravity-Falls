@@ -321,7 +321,7 @@ cena1.create = function () {
 
   //coletar chaves
 
-  this.physics.add.overlap(player1, key, collectKey, null, this);
+  this.phsiycs.add.overlap(player1, key, collectKey, null, this);
   this.physics.add.overlap(player1, key1, collectKey, null, this);
   this.physics.add.overlap(player1, key2, collectKey, null, this);
   this.physics.add.overlap(player1, key3, collectKey, null, this);
@@ -667,8 +667,13 @@ cena1.update = function (time, delta) {
   }
 
   // Se o contador terminar, para a música e segue para a cena 2
-  if (timer === 0) {
+  if (timer === 1) {
     if (win1 === true && win2 === true) {
+      musicagameplay.stop();
+      this.socket.disconnect();
+      this.scene.start(cena3);
+      this.scene.stop();
+    } else if (timer >= 0) {
       musicagameplay.stop();
       this.socket.disconnect();
       this.scene.start(cena2);
