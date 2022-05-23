@@ -1,6 +1,7 @@
 import { cena1 } from "./cena1.js";
 
 var cena2 = new Phaser.Scene("Cena 2");
+var audiogameover
 
 cena2.preload = function () {
   this.load.image("final", "./assets/cena2.png");
@@ -9,12 +10,11 @@ cena2.preload = function () {
 };
 
 cena2.create = function () {
-  this.add.image(400, 400, "final");
-  
   audiogameover = this.sound.add("audiogameover");
   audiogameover.play();
   audiogameover.setLoop(false);
   
+  this.add.image(400, 400, "final");
   var button = this.add.image(385, 700, "voltar").setInteractive();
 
   button.on(

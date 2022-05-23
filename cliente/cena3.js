@@ -1,6 +1,7 @@
 import { cena0 } from "./cena0.js";
 
 var cena3 = new Phaser.Scene("Cena 3");
+var encerramento
 
 cena3.preload = function () {
   this.load.image("vitória", "./assets/cena3.png");
@@ -9,18 +10,18 @@ cena3.preload = function () {
 };
 
 cena3.create = function () {
-  this.add.image(400, 400, "vitória");
-
-  encerramento = this.add.audio("encerramento");
+  encerramento = this.sound.add("encerramento");
   encerramento.play();
-  encerramento.setloop(true);
+  encerramento.setLoop(true);
   
+  this.add.image(400, 400, "vitória");
   var button = this.add.image(385, 700, "menu").setInteractive();
 
   button.on(
     "pointerdown",
     function () {
       this.scene.start(cena0);
+      encerramento.stop();
     },
     this
   );
