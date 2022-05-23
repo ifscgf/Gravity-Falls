@@ -5,24 +5,24 @@ var cena1 = new Phaser.Scene("Cena 1");
 
 var player1;
 var player2;
-var door;
+/*var door;
 var door1;
 var door2;
 var door3;
-var door4;
+var door4;*/
 var casa;
-var door_opened;
+/*var door_opened;
 var door_opened1;
 var door_opened2;
 var door_opened3;
-var door_opened4;
+var door_opened4;*/
 var key;
 var key1;
 var key2;
 var key3;
 var key4;
 var win1;
-var win2;
+//var win2;
 var saida;
 var coleta;
 var musicagameplay;
@@ -131,13 +131,13 @@ cena1.preload = function () {
 cena1.create = function () {
   timer = -1;
   win1 = false;
-  win2 = false;
+  //win2 = false;
 
-  door_opened = false;
+  /*door_opened = false;
   door_opened1 = false;
   door_opened2 = false;
   door_opened3 = false;
-  door_opened4 = false;
+  door_opened4 = false;*/
 
   musicagameplay = this.sound.add("musicagameplay");
   coleta = this.sound.add("coleta");
@@ -229,7 +229,7 @@ cena1.create = function () {
   player2 = this.physics.add.sprite(752, 48, "player2", 0);
 
   //abrir portas
-  var door_collider = this.physics.add.collider(
+  /*var door_collider = this.physics.add.collider(
     player1,
     door,
     null,
@@ -326,7 +326,7 @@ cena1.create = function () {
     null,
     null,
     this
-  );
+  );*/
 
   //coletar chaves
 
@@ -334,7 +334,7 @@ cena1.create = function () {
   this.physics.add.overlap(player1, key1, collectKey, null, this);
   this.physics.add.overlap(player1, key2, collectKey, null, this);
   this.physics.add.overlap(player1, key3, collectKey, null, this);
-  this.physics.add.overlap(player2, key4, collectKey2, null, this);
+  //this.physics.add.overlap(player2, key4, collectKey2, null, this);
 
   this.physics.add.overlap(player1, saida, winGame1, null, this);
 
@@ -435,7 +435,7 @@ cena1.create = function () {
   });
 
   //frames das animações portas
-  this.anims.create({
+ /* this.anims.create({
     key: "abrir-porta",
     frames: this.anims.generateFrameNumbers("door", {
       start: 0,
@@ -478,7 +478,7 @@ cena1.create = function () {
       end: 1,
     }),
     frameRate: 3,
-  });
+  });*/
 
   // Direcionais
   cursors = this.input.keyboard.createCursorKeys();
@@ -675,14 +675,13 @@ cena1.update = function (time, delta) {
   }
 
   // Se o contador terminar, para a música e segue para a cena 2
-  if (timer > 0) {
-    if (win1 === true) {
+  if (inventory > 0 && timer > 0 && win1 === true) {
       musicagameplay.stop();
       //this.socket.disconnect();
       this.scene.start(cena3);
       this.scene.stop();
     }
-  } else if (timer === 0) {
+    else if (timer === 0) {
     musicagameplay.stop();
     //this.socket.disconnect();
     this.scene.start(cena2);
@@ -698,21 +697,21 @@ function collectKey(player1, key) {
   inventoryText.setText(inventory);
 }
 
-function collectKey2(player2, key) {
+/*function collectKey2(player2, key) {
   //chave some quando coletada
   key.disableBody(true, true);
 
   inventory2 += 1;
   inventoryText2.setText(inventory2);
-}
+}*/
 
 function winGame1(player1, saida) {
   win1 = true;
 }
 
-function winGame2(player2, saida) {
+/*function winGame2(player2, saida) {
   win2 = true;
-}
+}*/
 
 function countdown() {
   //Contador decrementa em 1 segundo
