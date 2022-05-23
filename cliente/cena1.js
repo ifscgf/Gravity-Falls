@@ -640,17 +640,17 @@ cena1.update = function (time, delta) {
     });
   } else if (jogador === 2 && timer >= 0) {
     if (cursors.left.isDown) {
-      player2.body.setVelocityX(-150);
+      player2.body.setVelocityX(-50);
     } else if (cursors.right.isDown) {
-      player2.body.setVelocityX(150);
+      player2.body.setVelocityX(50);
     } else {
       player2.body.setVelocityX(0);
     }
 
     if (cursors.up.isDown) {
-      player2.body.setVelocityY(-150);
+      player2.body.setVelocityY(-50);
     } else if (cursors.down.isDown) {
-      player2.body.setVelocityY(150);
+      player2.body.setVelocityY(50);
     } else {
       player2.body.setVelocityY(0);
     }
