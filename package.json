@@ -1,24 +1,29 @@
 {
-  "name": "jogo",
+  "name": "gravityfallsgame",
   "version": "0.1.0",
   "description": "Projeto desenvolvido na Oitava fase do integrado de Telecomunicações do IFSC São josé",
+  "engines":{
+    "node": ">=16.x"
+  },
   "main": "index.js",
   "scripts": {
-    "start": "node servidor.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node servidor.js"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/niiquel/jogo.git"
   },
-  "author": "",
-  "license": "ISC",
+  "author": "aahj",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/niiquel/jogo/issues"
   },
   "homepage": "https://github.com/niiquel/jogo#readme",
   "dependencies": {
-    "express": "^4.17.2",
-    "socket.io": "^4.4.1"
-  }
+    "express": "^4.18.1",
+    "socket.io": "^4.5.1"
+  },
+  "keywords": [
+    "gf"
+  ]
 }

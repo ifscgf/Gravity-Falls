@@ -3,4 +3,4 @@ ports:
     onOpen: open-browser
 tasks:
   - init: npm install
-    command: node Servidor.js
+    command: npm start
