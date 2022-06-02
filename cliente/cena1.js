@@ -47,6 +47,7 @@ cena1.preload = function () {
   this.load.audio("musicagameplay", "./sounds/musicagameplay.mp3");
 
   // tilesets e mapa
+  this.load.image("fullscreen", "./assets/fullscreen.png");
   this.load.image("tilesets1", "./assets/tilesets1.png");
   this.load.image("tilesets2", "./assets/tilesets2.png");
   this.load.image("casa", "./assets/casa.png");
@@ -69,32 +70,6 @@ cena1.preload = function () {
     frameWidth: 15,
     frameHeight: 16,
   });
-
-  /*
-  this.load.spritesheet("door", "./assets/door.png", {
-    frameWidth: 32,
-    frameHeight: 26,
-  });
-
-  this.load.spritesheet("door1", "./assets/door.png", {
-    frameWidth: 32,
-    frameHeight: 26,
-  });
-
-  this.load.spritesheet("door2", "./assets/door.png", {
-    frameWidth: 32,
-    frameHeight: 26,
-  });
-
-  this.load.spritesheet("door3", "./assets/door.png", {
-    frameWidth: 32,
-    frameHeight: 26,
-  });
-
-  this.load.spritesheet("door4", "./assets/door.png", {
-    frameWidth: 32,
-    frameHeight: 26,
-  });*/
 
   this.load.spritesheet("saida", "./assets/saida.png", {
     frameWidth: 19,
@@ -130,12 +105,6 @@ cena1.preload = function () {
 cena1.create = function () {
   timer = -1;
 
-  /*door_opened = false;
-  door_opened1 = false;
-  door_opened2 = false;
-  door_opened3 = false;
-  door_opened4 = false;*/
-
   musicagameplay = this.sound.add("musicagameplay");
   coleta = this.sound.add("coleta");
 
@@ -160,19 +129,6 @@ cena1.create = function () {
 
   casa = this.physics.add.sprite(750, 700, "casa", 0).setScale(0.06);
   casa.body.setImmovable(true);
-
-  //portas
-  /*
-  door = this.physics.add.sprite(688, 560, "door", 0);
-  door.body.setImmovable(true);
-  door1 = this.physics.add.sprite(176, 624, "door1", 0);
-  door1.body.setImmovable(true);
-  door2 = this.physics.add.sprite(208, 240, "door2", 0);
-  door2.body.setImmovable(true);
-  door3 = this.physics.add.sprite(752, 112, "door3", 0);
-  door3.body.setImmovable(true);
-  door4 = this.physics.add.sprite(400, 16, "door4", 0);
-  door4.body.setImmovable(true);*/
 
   // Botão de ativar/desativar tela cheia
   var button = this.add
@@ -224,106 +180,6 @@ cena1.create = function () {
   // spawn
   player1 = this.physics.add.sprite(400, 768, "player1", 0).setScale(0.3);
   player2 = this.physics.add.sprite(752, 48, "player2", 0);
-
-  //abrir portas
-  /*var door_collider = this.physics.add.collider(
-    player1,
-    door,
-    null,
-    function () {
-      if (inventory > 0) {
-        if (!door_opened) {
-          door.anims.play("abrir-porta", true);
-          door_opened = true;
-          inventory -= 1;
-          inventoryText.setText(inventory);
-          this.physics.world.removeCollider(door_collider);
-        }
-      }
-    },
-    this
-  );
-  var door1_collider = this.physics.add.collider(
-    player1,
-    door1,
-    null,
-    function () {
-      if (inventory > 0) {
-        if (!door_opened1) {
-          door1.anims.play("abrir-porta1", true);
-          door_opened1 = true;
-          inventory -= 1;
-          inventoryText.setText(inventory);
-          this.physics.world.removeCollider(door1_collider);
-        }
-      }
-    },
-    this
-  );
-  var door2_collider = this.physics.add.collider(
-    player1,
-    door2,
-    null,
-    function () {
-      if (inventory > 0) {
-        if (!door_opened2) {
-          door2.anims.play("abrir-porta2", true);
-          door_opened2 = true;
-          inventory -= 1;
-          inventoryText.setText(inventory);
-          this.physics.world.removeCollider(door2_collider);
-        }
-      }
-    },
-    this
-  );
-  var door3_collider = this.physics.add.collider(
-    player1,
-    door3,
-    null,
-    function () {
-      if (inventory > 0) {
-        if (!door_opened3) {
-          door3.anims.play("abrir-porta3", true);
-          door_opened3 = true;
-          inventory -= 1;
-          inventoryText.setText(inventory);
-          this.physics.world.removeCollider(door3_collider);
-          this.physics.world.removeCollider(door3_collider2);
-        }
-      }
-    },
-    this
-  );
-
-  var door3_collider2 = this.physics.add.collider(player2, door3, null);
-
-  var door4_collider = this.physics.add.collider(
-    player2,
-    door4,
-    null,
-    function () {
-      if (inventory2 > 0) {
-        if (!door_opened4) {
-          door4.anims.play("abrir-porta4", true);
-          door_opened4 = true;
-          inventory2 -= 1;
-          inventoryText2.setText(inventory2);
-          this.physics.world.removeCollider(door4_collider);
-          this.physics.world.removeCollider(door4_collider2);
-        }
-      }
-    },
-    this
-  );
-
-  var door4_collider2 = this.physics.add.collider(
-    player1,
-    door4,
-    null,
-    null,
-    this
-  );*/
 
   //coletar chaves
 
@@ -430,52 +286,6 @@ cena1.create = function () {
     frameRate: 7,
     repeat: -1,
   });
-
-  //frames das animações portas
-  /* this.anims.create({
-    key: "abrir-porta",
-    frames: this.anims.generateFrameNumbers("door", {
-      start: 0,
-      end: 1,
-    }),
-    frameRate: 3,
-  });
-
-  this.anims.create({
-    key: "abrir-porta1",
-    frames: this.anims.generateFrameNumbers("door1", {
-      start: 0,
-      end: 1,
-    }),
-    frameRate: 3,
-  });
-
-  this.anims.create({
-    key: "abrir-porta2",
-    frames: this.anims.generateFrameNumbers("door2", {
-      start: 0,
-      end: 1,
-    }),
-    frameRate: 3,
-  });
-
-  this.anims.create({
-    key: "abrir-porta3",
-    frames: this.anims.generateFrameNumbers("door3", {
-      start: 0,
-      end: 1,
-    }),
-    frameRate: 3,
-  });
-
-  this.anims.create({
-    key: "abrir-porta4",
-    frames: this.anims.generateFrameNumbers("door4", {
-      start: 0,
-      end: 1,
-    }),
-    frameRate: 3,
-  });*/
 
   // Direcionais
   cursors = this.input.keyboard.createCursorKeys();
