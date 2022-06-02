@@ -5,23 +5,12 @@ var cena1 = new Phaser.Scene("Cena 1");
 
 var player1;
 var player2;
-/*var door;
-var door1;
-var door2;
-var door3;
-var door4;*/
 var casa;
-/*var door_opened;
-var door_opened1;
-var door_opened2;
-var door_opened3;
-var door_opened4;*/
 var key;
 var key1;
 var key2;
 var key3;
 var key4;
-//var win2;
 var saida;
 var coleta;
 var musicagameplay;
@@ -71,11 +60,13 @@ cena1.preload = function () {
     frameHeight: 16,
   });
 
+  //saída
   this.load.spritesheet("saida", "./assets/saida.png", {
     frameWidth: 19,
     frameHeight: 18,
   });
 
+  //itens
   this.load.spritesheet("key", "./assets/livro.png", {
     frameWidth: 1000,
     frameHeight: 1000,
@@ -102,6 +93,7 @@ cena1.preload = function () {
   });
 };
 
+//música de fundo
 cena1.create = function () {
   timer = -1;
 
@@ -126,7 +118,6 @@ cena1.create = function () {
   worldLayer.setCollisionByProperty({ collides: true });
 
   //casa
-
   casa = this.physics.add.sprite(750, 700, "casa", 0).setScale(0.06);
   casa.body.setImmovable(true);
 
@@ -182,7 +173,6 @@ cena1.create = function () {
   player2 = this.physics.add.sprite(752, 48, "player2", 0);
 
   //coletar chaves
-
   this.physics.add.overlap(player1, key, collectKey, null, this);
   this.physics.add.overlap(player1, key1, collectKey, null, this);
   this.physics.add.overlap(player1, key2, collectKey, null, this);
@@ -485,7 +475,7 @@ cena1.update = function (time, delta) {
   }
 }
 
-  // Se o contador terminar, para a música e segue para a cena 2
+  //Condições vitória e derrota
 function touchSaida(player1, saida) { 
   if (inventory > 4 && timer > 0) {
     musicagameplay.stop();
@@ -505,6 +495,7 @@ function countdown() {
   timerText.setText(timer);
 }
 
+//Jogador 1 perde se encostar no Jogador 2
 function hitplayer(player1, player2) {
   musicagameplay.stop();
   this.scene.start(cena2);
@@ -518,17 +509,5 @@ function collectKey(player1, key) {
   inventory += 1;
   inventoryText.setText(inventory);
 }
-
-/*function collectKey2(player2, key) {
-  //chave some quando coletada
-  key.disableBody(true, true);
-
-  inventory2 += 1;
-  inventoryText2.setText(inventory2);
-}*/
-
-/*function winGame2(player2, saida) {
-  win2 = true;
-}*/
 
 export { cena1 };
