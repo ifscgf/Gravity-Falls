@@ -21,7 +21,6 @@ var key1;
 var key2;
 var key3;
 var key4;
-var win1;
 //var win2;
 var saida;
 var coleta;
@@ -108,30 +107,28 @@ cena1.preload = function () {
   });
 
   this.load.spritesheet("key1", "./assets/livro.png", {
-    frameWidth: 16,
-    frameHeight: 16,
+    frameWidth: 1000,
+    frameHeight: 1000,
   });
 
   this.load.spritesheet("key2", "./assets/livro.png", {
-    frameWidth: 16,
-    frameHeight: 16,
+    frameWidth: 1000,
+    frameHeight: 1000,
   });
 
   this.load.spritesheet("key3", "./assets/livro.png", {
-    frameWidth: 16,
-    frameHeight: 16,
+    frameWidth: 1000,
+    frameHeight: 1000,
   });
 
   this.load.spritesheet("key4", "./assets/livro.png", {
-    frameWidth: 16,
-    frameHeight: 16,
+    frameWidth: 1000,
+    frameHeight: 1000,
   });
 };
 
 cena1.create = function () {
   timer = -1;
-  win1 = false;
-  //win2 = false;
 
   /*door_opened = false;
   door_opened1 = false;
@@ -334,9 +331,9 @@ cena1.create = function () {
   this.physics.add.overlap(player1, key1, collectKey, null, this);
   this.physics.add.overlap(player1, key2, collectKey, null, this);
   this.physics.add.overlap(player1, key3, collectKey, null, this);
-  //this.physics.add.overlap(player2, key4, collectKey2, null, this);
-
-  this.physics.add.overlap(player1, saida, winGame1, null, this);
+  this.physics.add.overlap(player1, key4, collectKey, null, this);
+  this.physics.add.overlap(player1, player2, hitplayer, null, this);
+  this.physics.add.overlap(player1, saida, touchSaida, null, this);
 
   //frames das animações jogador 1
   this.anims.create({
@@ -435,7 +432,7 @@ cena1.create = function () {
   });
 
   //frames das animações portas
- /* this.anims.create({
+  /* this.anims.create({
     key: "abrir-porta",
     frames: this.anims.generateFrameNumbers("door", {
       start: 0,
@@ -519,6 +516,9 @@ cena1.create = function () {
 
       // Personagens colidem com os limites da cena
       player1.setCollideWorldBounds(true);
+
+      //personagens colidem entre si
+      physics.add.collider(player1, player2, null, null, this);
 
       // Colisão com camadas 1
       physics.add.collider(player1, worldLayer, null, null, this);
@@ -673,21 +673,33 @@ cena1.update = function (time, delta) {
       y: player2.body.y,
     });
   }
+}
 
   // Se o contador terminar, para a música e segue para a cena 2
-  if (inventory > 0 && timer > 0 && win1 === true) {
-      musicagameplay.stop();
-      //this.socket.disconnect();
-      this.scene.start(cena3);
-      this.scene.stop();
-    }
-    else if (timer === 0) {
+function touchSaida(player1, saida) { 
+  if (inventory > 4 && timer > 0) {
     musicagameplay.stop();
-    //this.socket.disconnect();
+    this.scene.start(cena3);
+    this.scene.stop();
+  } else if (timer === 0) {
+    musicagameplay.stop();
     this.scene.start(cena2);
     this.scene.stop();
   }
 };
+
+
+function countdown() {
+  //Contador decrementa em 1 segundo
+  timer -= 1;
+  timerText.setText(timer);
+}
+
+function hitplayer(player1, player2) {
+  musicagameplay.stop();
+  this.scene.start(cena2);
+  this.scene.stop();
+}
 
 function collectKey(player1, key) {
   //chave some quando coletada
@@ -705,18 +717,8 @@ function collectKey(player1, key) {
   inventoryText2.setText(inventory2);
 }*/
 
-function winGame1(player1, saida) {
-  win1 = true;
-}
-
 /*function winGame2(player2, saida) {
   win2 = true;
 }*/
-
-function countdown() {
-  //Contador decrementa em 1 segundo
-  timer -= 1;
-  timerText.setText(timer);
-}
 
 export { cena1 };
