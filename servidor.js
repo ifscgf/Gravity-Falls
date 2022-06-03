@@ -5,7 +5,7 @@ const io = require("socket.io")(server, {
   cors: {
     origins: [
     "https://gravityfallsgame.ifsc.cloud",
-    "https://*gitpod.io"
+    "https://*.gitpod.io"
     ],
   },
 });

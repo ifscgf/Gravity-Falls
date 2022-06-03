@@ -288,14 +288,12 @@ cena1.create = function () {
   });
 
   // Conectar no servidor via WebSocket
-  socket = io("");
+  socket = io();
 
   // Disparar evento quando jogador entrar na partida
-  var self = this;
   var physics = this.physics;
   var cameras = this.cameras;
   var time = this.time;
-  var socket = this.socket;
   var add = this.add;
 
   inventoryText = add.text(768, 758, "0", {
@@ -310,8 +308,8 @@ cena1.create = function () {
     fill: "#fff",
   });
 
-  this.socket.on("jogadores", function (jogadores) {
-    if (jogadores.primeiro === self.socket.id) {
+  socket.on("jogadores", function (jogadores) {
+    if (jogadores.primeiro === socket.id) {
       // Define jogador como o primeiro
       jogador = 1;
 
@@ -333,7 +331,7 @@ cena1.create = function () {
 
       // Colisão com casa
       physics.add.collider(player1, casa, null, null, this);
-    } else if (jogadores.segundo === self.socket.id) {
+    } else if (jogadores.segundo === socket.id) {
       // Define jogador como o segundo
       jogador = 2;
 
@@ -361,7 +359,7 @@ cena1.create = function () {
     }
   });
 
-  this.socket.on("offer", (socketId, description) => {
+  socket.on("offer", (socketId, description) => {
     remoteConnection = new RTCPeerConnection(ice_servers);
     midias
       .getTracks()
@@ -434,7 +432,7 @@ cena1.update = function (time, delta) {
     } else {
       player1.anims.play("stopped1", true);
     }
-    this.socket.emit("estadoDoJogador", {
+    socket.emit("estadoDoJogador", {
       frame: player1.anims.getFrameName(),
       x: player1.body.x,
       y: player1.body.y,
@@ -468,7 +466,7 @@ cena1.update = function (time, delta) {
       player2.anims.play("stopped2", true);
     }
 
-    this.socket.emit("estadoDoJogador", {
+    socket.emit("estadoDoJogador", {
       frame: player2.anims.getFrameName(),
       x: player2.body.x,
       y: player2.body.y,
