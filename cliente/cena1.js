@@ -23,6 +23,7 @@ var inventory = 0;
 var inventoryText2;
 var inventory2 = 0;
 var jogador;
+var socket
 var ice_servers = {
   iceServers: [{ urls: "stun:stun.l.google.com:19302" }],
 };
@@ -287,7 +288,7 @@ cena1.create = function () {
   });
 
   // Conectar no servidor via WebSocket
-  this.socket = io();
+  socket = io("");
 
   // Disparar evento quando jogador entrar na partida
   var self = this;

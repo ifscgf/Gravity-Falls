@@ -1,7 +1,14 @@
 const express = require("express");
 const app = express();
 const server = require("http").Server(app);
-const io = require("socket.io")(server);
+const io = require("socket.io")(server, {
+  cors: {
+    origins: [
+    "https://gravityfallsgame.ifsc.cloud",
+    "https://*gitpod.io"
+    ],
+  },
+});
 const PORT = process.env.PORT || 3000;
 var jogadores = {
   primeiro: undefined,
