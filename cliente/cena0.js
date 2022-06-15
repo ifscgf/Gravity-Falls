@@ -13,7 +13,7 @@ cena0.preload = function () {
 cena0.create = function () {
   abertura = this.sound.add("abertura");
   abertura.play();
-  abertura.setLoop(true);
+  abertura.setLoop(false);
 
   this.add.image(380, 300, "abertura").setScale(0.3);
   this.add.image(550, 610, "stan").setScale(0.4);
