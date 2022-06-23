@@ -23,14 +23,24 @@ var inventory = 0;
 var inventoryText2;
 var inventory2 = 0;
 var jogador;
-var socket
+var socket;
 var ice_servers = {
-  iceServers: [{ urls: "stun:stun.l.google.com:19302" }],
+  iceServers: [
+    {
+      urls: "stun:ifsc.cloud",
+    },
+    {
+      urls: "turns:ifsc.cloud",
+      username: "etorresini",
+      credential: "matrix",
+    },
+  ],
 };
 var localConnection;
 var remoteConnection;
 var midias;
 const audio = document.querySelector("audio");
+var sala;
 
 cena1.preload = function () {
   // música ambiente
@@ -288,7 +298,33 @@ cena1.create = function () {
   });
 
   // Conectar no servidor via WebSocket
-  socket = io();
+  socket = io("https://hidden-brook-30522.herokuapp.com/");
+  var textMsg = this.add.text(10, 10, "Sala para entrar:", {
+    font: "32px Courier",
+    fill: "#ffffff",
+  });
+
+  var textEntry = this.add.text(10, 50, "", {
+    font: "32px Courier",
+    fill: "#ffff00",
+  });
+
+  this.input.keyboard.on("keydown", function (event) {
+    if (event.keyCode === 8 && textEntry.text.length > 0) {
+      textEntry.text = textEntry.text.substr(0, textEntry.text.length - 1);
+    } else if (
+      event.keyCode === 32 ||
+      (event.keyCode >= 48 && event.keyCode < 90)
+    ) {
+      textEntry.text += event.key;
+    } else if (event.keyCode === 13) {
+      sala = textEntry.text;
+      console.log("Pedido de entrada na sala %s.", sala);
+      socket.emit("entrar-na-sala", sala);
+      textMsg.destroy();
+      textEntry.destroy();
+    }
+  });
 
   // Disparar evento quando jogador entrar na partida
   var physics = this.physics;
@@ -365,7 +401,7 @@ cena1.create = function () {
       .getTracks()
       .forEach((track) => remoteConnection.addTrack(track, midias));
     remoteConnection.onicecandidate = ({ candidate }) => {
-      candidate && socket.emit("candidate", socketId, candidate);
+      candidate && socket.emit("candidate", sala, candidate);
     };
     remoteConnection.ontrack = ({ streams: [midias] }) => {
       audio.srcObject = midias;
@@ -375,7 +411,7 @@ cena1.create = function () {
       .then(() => remoteConnection.createAnswer())
       .then((answer) => remoteConnection.setLocalDescription(answer))
       .then(() => {
-        socket.emit("answer", socketId, remoteConnection.localDescription);
+        socket.emit("answer", sala, remoteConnection.localDescription);
       });
   });
 
@@ -432,7 +468,7 @@ cena1.update = function (time, delta) {
     } else {
       player1.anims.play("stopped1", true);
     }
-    socket.emit("estadoDoJogador", {
+    socket.emit("estadoDoJogador", sala, {
       frame: player1.anims.getFrameName(),
       x: player1.body.x,
       y: player1.body.y,
@@ -466,16 +502,16 @@ cena1.update = function (time, delta) {
       player2.anims.play("stopped2", true);
     }
 
-    socket.emit("estadoDoJogador", {
+    socket.emit("estadoDoJogador", sala, {
       frame: player2.anims.getFrameName(),
       x: player2.body.x,
       y: player2.body.y,
     });
   }
-}
+};
 
-  //Condições vitória e derrota
-function touchSaida(player1, saida) { 
+//Condições vitória e derrota
+function touchSaida(player1, saida) {
   if (inventory > 4 && timer > 0) {
     musicagameplay.stop();
     this.scene.start(cena3);
@@ -485,8 +521,7 @@ function touchSaida(player1, saida) {
     this.scene.start(cena2);
     this.scene.stop();
   }
-};
-
+}
 
 function countdown() {
   //Contador decrementa em 1 segundo
