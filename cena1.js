@@ -14,10 +14,9 @@ var key4;
 var saida;
 var coleta;
 var musicagameplay;
-var cursors;
 var pointer;
-var touchx;
-var touchy;
+var touchX;
+var touchY;
 var timedEvent;
 var timer = -1;
 var timerText;
@@ -312,9 +311,6 @@ cena1.create = function () {
     repeat: -1,
   });
 
-  // Direcionais
-  cursors = this.input.keyboard.createCursorKeys();
-
   // Interação por toque de tela (até 2 toques simultâneos 0 a 1)
   pointer = this.input.addPointer(1);
 
@@ -550,7 +546,7 @@ cena1.create = function () {
     console.log(jogadores);
     if (jogadores.primeiro !== undefined && jogadores.segundo !== undefined) {
       // Contagem regressiva em segundos (1.000 milissegundos)
-      timer = 300;
+      timer = 150;
       timedEvent = time.addEvent({
         delay: 1000,
         callback: countdown,
@@ -604,105 +600,49 @@ cena1.create = function () {
 };
 
 cena1.update = function (time, delta) {
-  //Sincronizar direcionais com movimentos
-  if (jogador === 1 && timer >= 0) {
-    if (cursors.left.isDown) {
-      player1.body.setVelocityX(-130);
-    } else if (cursors.right.isDown) {
-      player1.body.setVelocityX(130);
-    } else {
-      player1.body.setVelocityX(0);
-    }
 
-    if (cursors.up.isDown) {
-      player1.body.setVelocityY(-130);
-    } else if (cursors.down.isDown) {
-      player1.body.setVelocityY(130);
-    } else {
-      player1.body.setVelocityY(0);
+  // Controle dos personagens por toque
+  let frame;
+  if (jogador === 1) {
+    // Testa se há animação do oponente,
+    // caso contrário envia o primeiro frame (0)
+    try {
+      frame = player1.anims.currentFrame.index;
+    } catch (e) {
+      frame = 0;
     }
-
-    if (cursors.left.isDown) {
-      player1.anims.play("left1", true);
-    } else if (cursors.right.isDown) {
-      player1.anims.play("right1", true);
-    } else if (cursors.up.isDown) {
-      player1.anims.play("up1", true);
-    } else if (cursors.down.isDown) {
-      player1.anims.play("down1", true);
-    } else {
-      player1.anims.play("stopped1", true);
-    }
-    socket.emit("estadoDoJogador", sala, {
-      frame: player1.anims.getFrameName(),
+    this.socket.emit("estadoDoJogador", {
+      frame: frame,
       x: player1.body.x,
       y: player1.body.y,
     });
-  } else if (jogador === 2 && timer >= 0) {
-    if (cursors.left.isDown) {
-      player2.body.setVelocityX(-70);
-    } else if (cursors.right.isDown) {
-      player2.body.setVelocityX(70);
-    } else {
-      player2.body.setVelocityX(0);
+  } else if (jogador === 2) {
+    // Testa se há animação do oponente,
+    // caso contrário envia o primeiro frame (0)
+    try {
+      frame = player2.anims.currentFrame.index;
+    } catch (e) {
+      frame = 0;
     }
-
-    if (cursors.up.isDown) {
-      player2.body.setVelocityY(-70);
-    } else if (cursors.down.isDown) {
-      player2.body.setVelocityY(70);
-    } else {
-      player2.body.setVelocityY(0);
-    }
-
-    if (cursors.left.isDown) {
-      player2.anims.play("left2", true);
-    } else if (cursors.right.isDown) {
-      player2.anims.play("right2", true);
-    } else if (cursors.up.isDown) {
-      player2.anims.play("up2", true);
-    } else if (cursors.down.isDown) {
-      player2.anims.play("down2", true);
-    } else {
-      player2.anims.play("stopped2", true);
-    }
-
-    socket.emit("estadoDoJogador", sala, {
-      frame: player2.anims.getFrameName(),
+    this.socket.emit("estadoDoJogador", {
+      frame: frame,
       x: player2.body.x,
       y: player2.body.y,
     });
-  }
+  };
 };
-
-// Controle dos personagens por toque
-switch (jogador) {
-  case 1:
-    // Testa se há animação do oponente,
-    // caso contrário envia o primeiro frame (0)
-    this.socket.emit("estadoDoJogador", {
-      frame: () => {
-        try {
-          player1.anims.currentFrame.index;
-        } catch (e) {
-          return 0;
-        }
-      },
-      x: player1.body.x,
-      y: player1.body.y,
-    });
-}
+    
 
 //Condições vitória e derrota
 function touchSaida(player1, saida) {
   if (inventory > 4 && timer > 0) {
     musicagameplay.stop();
-    this.scene.start(cena3);
     this.scene.stop();
+    this.scene.start(cena3);
   } else if (timer === 0) {
     musicagameplay.stop();
-    this.scene.start(cena2);
     this.scene.stop();
+    this.scene.start(cena2);
   }
 }
 
