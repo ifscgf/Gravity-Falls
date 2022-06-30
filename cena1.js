@@ -15,8 +15,11 @@ var saida;
 var coleta;
 var musicagameplay;
 var cursors;
-var timer;
+var pointer;
+var touchx;
+var touchy;
 var timedEvent;
+var timer = -1;
 var timerText;
 var inventoryText;
 var inventory = 0;
@@ -169,6 +172,27 @@ cena1.create = function () {
     this
   );
 
+  // D-Pad
+  this.load.spritesheet("esquerda", "assets/esquerda.png", {
+    frameWidth: 64,
+    frameHeight: 64,
+  });
+  
+  this.load.spritesheet("direita", "assets/direita.png", {
+    frameWidth: 64,
+    frameHeight: 64,
+  });
+
+  this.load.spritesheet("cima", "assets/cima.png", {
+    frameWidth: 64,
+    frameHeight: 64,
+  });
+
+  this.load.spritesheet("baixo", "assets/baixo.png", {
+    frameWidth: 64,
+    frameHeight: 64,
+  });
+
   //chaves
   key = this.physics.add.sprite(718, 400, "key").setScale(0.01);
   key1 = this.physics.add.sprite(46, 752, "key1").setScale(0.01);
@@ -291,6 +315,27 @@ cena1.create = function () {
   // Direcionais
   cursors = this.input.keyboard.createCursorKeys();
 
+  // Interação por toque de tela (até 2 toques simultâneos 0 a 1)
+  pointer = this.input.addPointer(1);
+
+  // D-Pad
+  var esquerda = this.add
+    .image(50, 550, "esquerda", 0)
+    .setInteractive()
+    .setScrollFactor(0);
+  var direita = this.add
+    .image(125, 550, "direita", 0)
+    .setInteractive()
+    .setScrollFactor(0);
+  var cima = this.add
+    .image(750, 475, "cima", 0)
+    .setInteractive()
+    .setScrollFactor(0);
+  var baixo = this.add
+    .image(750, 550, "baixo", 0)
+    .setInteractive()
+    .setScrollFactor(0);
+
   // Contador na tela
   timerText = this.add.text(16, 16, "150", {
     fontSize: "32px",
@@ -365,6 +410,66 @@ cena1.create = function () {
 
       cameras.main.setBounds(0, 0, 800, 800);
 
+      // D-Pad: Para cada direção já os eventos
+      // para tocar a tela ("pointerover")
+      // e ao terminar essa interação ("pointerout")
+      esquerda.on("pointerover", () => {
+        if (timer > 0) {
+          esquerda.setFrame(1);
+          player1.setVelocityX(-130);
+          player1.anims.play("left1", true);
+        }
+      });
+      esquerda.on("pointerout", () => {
+        if (timer > 0) {
+          esquerda.setFrame(0);
+          player1.setVelocityX(0);
+          player1.anims.play("stopped1", true);
+        }
+      });
+      direita.on("pointerover", () => {
+        if (timer > 0) {
+          direita.setFrame(1);
+          player1.setVelocityX(130);
+          player1.anims.play("left1", true);
+        }
+      });
+      direita.on("pointerout", () => {
+        if (timer > 0) {
+          direita.setFrame(0);
+          player1.setVelocityX(0);
+          player1.anims.play("stopped1", true);
+        }
+      });
+      cima.on("pointerover", () => {
+        if (timer > 0) {
+          cima.setFrame(1);
+          player1.setVelocityY(-130);
+          player1.anims.play("up1", true);
+        }
+      });
+      cima.on("pointerout", () => {
+        if (timer > 0) {
+          cima.setFrame(0);
+          player1.setVelocityY(0);
+          player1.anims.play("stopped1", true);
+        }
+      });
+      baixo.on("pointerover", () => {
+        if (timer > 0) {
+          cima.setFrame(0);
+          player1.setVelocityY(130);
+          player1.anims.play("down1", true);
+        }
+      });
+      baixo.on("pointerout", () => {
+        if (timer > 0) {
+          cima.setFrame(1);
+          player1.setVelocityY(0);
+          player1.anims.play("stopped1", true);
+        }
+      });
+
       // Colisão com casa
       physics.add.collider(player1, casa, null, null, this);
     } else if (jogadores.segundo === socket.id) {
@@ -380,6 +485,66 @@ cena1.create = function () {
       // Colisão com casa
       physics.add.collider(player2, casa, null, null, this);
     }
+
+    // D-Pad: Para cada direção já os eventos
+    // para tocar a tela ("pointerover")
+    // e ao terminar essa interação ("pointerout")
+    esquerda.on("pointerover", () => {
+      if (timer > 0) {
+        esquerda.setFrame(1);
+        player2.setVelocityX(-70);
+        player2.anims.play("left2", true);
+      }
+    });
+    esquerda.on("pointerout", () => {
+      if (timer > 0) {
+        esquerda.setFrame(0);
+        player2.setVelocityX(0);
+        player2.anims.play("stopped2", true);
+      }
+    });
+    direita.on("pointerover", () => {
+      if (timer > 0) {
+        direita.setFrame(1);
+        player2.setVelocityX(70);
+        player2.anims.play("left2", true);
+      }
+    });
+    direita.on("pointerout", () => {
+      if (timer > 0) {
+        direita.setFrame(0);
+        player2.setVelocityX(0);
+        player2.anims.play("stopped2", true);
+      }
+    });
+    cima.on("pointerover", () => {
+      if (timer > 0) {
+        cima.setFrame(1);
+        player2.setVelocityY(-70);
+        player2.anims.play("up2", true);
+      }
+    });
+    cima.on("pointerout", () => {
+      if (timer > 0) {
+        cima.setFrame(0);
+        player2.setVelocityY(0);
+        player2.anims.play("stopped2", true);
+      }
+    });
+    baixo.on("pointerover", () => {
+      if (timer > 0) {
+        cima.setFrame(0);
+        player2.setVelocityY(70);
+        player2.anims.play("down2", true);
+      }
+    });
+    baixo.on("pointerout", () => {
+      if (timer > 0) {
+        cima.setFrame(1);
+        player2.setVelocityY(0);
+        player2.anims.play("stopped2", true);
+      }
+    });
 
     // Os dois jogadores estão conectados
     console.log(jogadores);
@@ -442,17 +607,17 @@ cena1.update = function (time, delta) {
   //Sincronizar direcionais com movimentos
   if (jogador === 1 && timer >= 0) {
     if (cursors.left.isDown) {
-      player1.body.setVelocityX(-150);
+      player1.body.setVelocityX(-130);
     } else if (cursors.right.isDown) {
-      player1.body.setVelocityX(150);
+      player1.body.setVelocityX(130);
     } else {
       player1.body.setVelocityX(0);
     }
 
     if (cursors.up.isDown) {
-      player1.body.setVelocityY(-150);
+      player1.body.setVelocityY(-130);
     } else if (cursors.down.isDown) {
-      player1.body.setVelocityY(150);
+      player1.body.setVelocityY(130);
     } else {
       player1.body.setVelocityY(0);
     }
@@ -475,17 +640,17 @@ cena1.update = function (time, delta) {
     });
   } else if (jogador === 2 && timer >= 0) {
     if (cursors.left.isDown) {
-      player2.body.setVelocityX(-50);
+      player2.body.setVelocityX(-70);
     } else if (cursors.right.isDown) {
-      player2.body.setVelocityX(50);
+      player2.body.setVelocityX(70);
     } else {
       player2.body.setVelocityX(0);
     }
 
     if (cursors.up.isDown) {
-      player2.body.setVelocityY(-50);
+      player2.body.setVelocityY(-70);
     } else if (cursors.down.isDown) {
-      player2.body.setVelocityY(50);
+      player2.body.setVelocityY(70);
     } else {
       player2.body.setVelocityY(0);
     }
@@ -509,6 +674,24 @@ cena1.update = function (time, delta) {
     });
   }
 };
+
+// Controle dos personagens por toque
+switch (jogador) {
+  case 1:
+    // Testa se há animação do oponente,
+    // caso contrário envia o primeiro frame (0)
+    this.socket.emit("estadoDoJogador", {
+      frame: () => {
+        try {
+          player1.anims.currentFrame.index;
+        } catch (e) {
+          return 0;
+        }
+      },
+      x: player1.body.x,
+      y: player1.body.y,
+    });
+}
 
 //Condições vitória e derrota
 function touchSaida(player1, saida) {
