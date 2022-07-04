@@ -43,8 +43,27 @@ var remoteConnection;
 var midias;
 const audio = document.querySelector("audio");
 var sala;
+var botaoSala1;
+var botaoSala2;
+var botaoSala3;
+var botaoSala4;
+var botaoSala5;
+var botaoSala6;
+
+//Funções para mostrar as telas do jogo
+  function aparecerSalas() {
+    botaoSala1.setVisible(false);
+    botaoSala2.setVisible(false);
+    botaoSala3.setVisible(false);
+    botaoSala4.setVisible(false);
+    botaoSala5.setVisible(false);
+    botaoSala6.setVsible(false);
+  };
 
 cena1.preload = function () {
+
+  this.load.image("botaoSala", "./assets/play.png");
+  
   // música ambiente
   this.load.audio("musicagameplay", "./sounds/musicagameplay.mp3");
 
@@ -344,6 +363,64 @@ cena1.create = function () {
     font: "32px Courier",
     fill: "#ffffff",
   });
+
+  //Criando os botões para escolher a sala
+  botaoSala1 = this.add
+    .image(100, 100, "botaoSala")
+    .setInteractive()
+    .setScale(0.2);
+  botaoSala2 = this.add
+    .image(100, 200, "botaoSala")
+    .setInteractive()
+    .setScale(0.2);
+  botaoSala3 = this.add
+    .image(100, 300, "botaoSala")
+    .setInteractive()
+    .setScale(0.2);
+  botaoSala4 = this.add
+    .image(300, 100, "botaoSala")
+    .setInteractive()
+    .setScale(0.2);
+  botaoSala5 = this.add
+    .image(300, 200, "botaoSala")
+    .setInteractive()
+    .setScale(0.2);
+  botaoSala6 = this.add
+    .image(300, 300, "botaoSala")
+    .setInteractive()
+    .setScale(0.2);
+  
+  //Quando clicar em cada botão, vai para uma sala específica
+  botaoSala1.on("pointerdown", function () {
+    sala = 1;
+    console.log("Um player selecionou a sala %s.", sala);
+    socket.emit("entrar-na-sala", sala);
+  });
+  botaoSala2.on("pointerdown", function () {
+    sala = 2;
+    console.log("Pedido de entrada na sala %s.", sala);
+    socket.emit("entrar-na-sala", sala);
+  });
+  botaoSala3.on("pointerdown", function () {
+    sala = 3;
+    console.log("Pedido de entrada na sala %s.", sala);
+    socket.emit("entrar-na-sala", sala);
+  });
+  botaoSala4.on("pointerdown", function () {
+    sala = 4;
+    console.log("Pedido de entrada na sala %s.", sala);
+    socket.emit("entrar-na-sala", sala);
+  });
+  botaoSala5.on("pointerdown", function () {
+    sala = 5;
+    console.log("Pedido de entrada na sala %s.", sala);
+    socket.emit("entrar-na-sala", sala);
+  });
+    botaoSala6.on("pointerdown", function () {
+      sala = 6;
+      console.log("Pedido de entrada na sala %s.", sala);
+      socket.emit("entrar-na-sala", sala);
+    });
 
   var textEntry = this.add.text(10, 50, "", {
     font: "32px Courier",
