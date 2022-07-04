@@ -453,14 +453,14 @@ cena1.create = function () {
       });
       baixo.on("pointerover", () => {
         if (timer > 0) {
-          cima.setFrame(0);
+          baixo.setFrame(1);
           player1.setVelocityY(130);
           player1.anims.play("down1", true);
         }
       });
       baixo.on("pointerout", () => {
         if (timer > 0) {
-          cima.setFrame(1);
+          baixo.setFrame(0);
           player1.setVelocityY(0);
           player1.anims.play("stopped1", true);
         }
@@ -535,14 +535,14 @@ cena1.create = function () {
       });
       baixo.on("pointerover", () => {
         if (timer > 0) {
-          cima.setFrame(0);
+          baixo.setFrame(1);
           player2.setVelocityY(70);
           player2.anims.play("down2", true);
         }
       });
       baixo.on("pointerout", () => {
         if (timer > 0) {
-          cima.setFrame(1);
+          baixo.setFrame(0);
           player2.setVelocityY(0);
           player2.anims.play("stopped2", true);
         }
