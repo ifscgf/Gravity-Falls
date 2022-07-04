@@ -104,6 +104,27 @@ cena1.preload = function () {
     frameWidth: 1000,
     frameHeight: 1000,
   });
+
+  // D-Pad
+  this.load.spritesheet("esquerda", "assets/esquerda.png", {
+    frameWidth: 64,
+    frameHeight: 64,
+  });
+
+  this.load.spritesheet("direita", "assets/direita.png", {
+    frameWidth: 64,
+    frameHeight: 64,
+  });
+
+  this.load.spritesheet("cima", "assets/cima.png", {
+    frameWidth: 64,
+    frameHeight: 64,
+  });
+
+  this.load.spritesheet("baixo", "assets/baixo.png", {
+    frameWidth: 64,
+    frameHeight: 64,
+  });
 };
 
 //música de fundo
@@ -170,27 +191,6 @@ cena1.create = function () {
     },
     this
   );
-
-  // D-Pad
-  this.load.spritesheet("esquerda", "assets/esquerda.png", {
-    frameWidth: 64,
-    frameHeight: 64,
-  });
-  
-  this.load.spritesheet("direita", "assets/direita.png", {
-    frameWidth: 64,
-    frameHeight: 64,
-  });
-
-  this.load.spritesheet("cima", "assets/cima.png", {
-    frameWidth: 64,
-    frameHeight: 64,
-  });
-
-  this.load.spritesheet("baixo", "assets/baixo.png", {
-    frameWidth: 64,
-    frameHeight: 64,
-  });
 
   //chaves
   key = this.physics.add.sprite(718, 400, "key").setScale(0.01);
@@ -468,6 +468,13 @@ cena1.create = function () {
 
       // Colisão com casa
       physics.add.collider(player1, casa, null, null, this);
+
+      navigator.mediaDevices
+        .getUserMedia({ video: false, audio: true })
+        .then((stream) => {
+          midias = stream;
+        })
+        .catch((error) => console.log(error));
     } else if (jogadores.segundo === socket.id) {
       // Define jogador como o segundo
       jogador = 2;
@@ -480,67 +487,91 @@ cena1.create = function () {
 
       // Colisão com casa
       physics.add.collider(player2, casa, null, null, this);
-    }
 
-    // D-Pad: Para cada direção já os eventos
-    // para tocar a tela ("pointerover")
-    // e ao terminar essa interação ("pointerout")
-    esquerda.on("pointerover", () => {
-      if (timer > 0) {
-        esquerda.setFrame(1);
-        player2.setVelocityX(-70);
-        player2.anims.play("left2", true);
-      }
-    });
-    esquerda.on("pointerout", () => {
-      if (timer > 0) {
-        esquerda.setFrame(0);
-        player2.setVelocityX(0);
-        player2.anims.play("stopped2", true);
-      }
-    });
-    direita.on("pointerover", () => {
-      if (timer > 0) {
-        direita.setFrame(1);
-        player2.setVelocityX(70);
-        player2.anims.play("left2", true);
-      }
-    });
-    direita.on("pointerout", () => {
-      if (timer > 0) {
-        direita.setFrame(0);
-        player2.setVelocityX(0);
-        player2.anims.play("stopped2", true);
-      }
-    });
-    cima.on("pointerover", () => {
-      if (timer > 0) {
-        cima.setFrame(1);
-        player2.setVelocityY(-70);
-        player2.anims.play("up2", true);
-      }
-    });
-    cima.on("pointerout", () => {
-      if (timer > 0) {
-        cima.setFrame(0);
-        player2.setVelocityY(0);
-        player2.anims.play("stopped2", true);
-      }
-    });
-    baixo.on("pointerover", () => {
-      if (timer > 0) {
-        cima.setFrame(0);
-        player2.setVelocityY(70);
-        player2.anims.play("down2", true);
-      }
-    });
-    baixo.on("pointerout", () => {
-      if (timer > 0) {
-        cima.setFrame(1);
-        player2.setVelocityY(0);
-        player2.anims.play("stopped2", true);
-      }
-    });
+      // D-Pad: Para cada direção já os eventos
+      // para tocar a tela ("pointerover")
+      // e ao terminar essa interação ("pointerout")
+      esquerda.on("pointerover", () => {
+        if (timer > 0) {
+          esquerda.setFrame(1);
+          player2.setVelocityX(-70);
+          player2.anims.play("left2", true);
+        }
+      });
+      esquerda.on("pointerout", () => {
+        if (timer > 0) {
+          esquerda.setFrame(0);
+          player2.setVelocityX(0);
+          player2.anims.play("stopped2", true);
+        }
+      });
+      direita.on("pointerover", () => {
+        if (timer > 0) {
+          direita.setFrame(1);
+          player2.setVelocityX(70);
+          player2.anims.play("left2", true);
+        }
+      });
+      direita.on("pointerout", () => {
+        if (timer > 0) {
+          direita.setFrame(0);
+          player2.setVelocityX(0);
+          player2.anims.play("stopped2", true);
+        }
+      });
+      cima.on("pointerover", () => {
+        if (timer > 0) {
+          cima.setFrame(1);
+          player2.setVelocityY(-70);
+          player2.anims.play("up2", true);
+        }
+      });
+      cima.on("pointerout", () => {
+        if (timer > 0) {
+          cima.setFrame(0);
+          player2.setVelocityY(0);
+          player2.anims.play("stopped2", true);
+        }
+      });
+      baixo.on("pointerover", () => {
+        if (timer > 0) {
+          cima.setFrame(0);
+          player2.setVelocityY(70);
+          player2.anims.play("down2", true);
+        }
+      });
+      baixo.on("pointerout", () => {
+        if (timer > 0) {
+          cima.setFrame(1);
+          player2.setVelocityY(0);
+          player2.anims.play("stopped2", true);
+        }
+      });
+
+      navigator.mediaDevices
+        .getUserMedia({ video: false, audio: true })
+        .then((stream) => {
+          midias = stream;
+          localConnection = new RTCPeerConnection(ice_servers);
+          midias
+            .getTracks()
+            .forEach((track) => localConnection.addTrack(track, midias));
+          localConnection.onicecandidate = ({ candidate }) => {
+            candidate && socket.emit("candidate", sala, candidate);
+          };
+          console.log(midias);
+          localConnection.ontrack = ({ streams: [midias] }) => {
+            audio.srcObject = midias;
+          };
+          localConnection
+            .createOffer()
+            .then((offer) => localConnection.setLocalDescription(offer))
+            .then(() => {
+              socket.emit("offer", sala, localConnection.localDescription);
+            });
+        })
+        .catch((error) => console.log(error));
+    }
 
     // Os dois jogadores estão conectados
     console.log(jogadores);
@@ -607,11 +638,11 @@ cena1.update = function (time, delta) {
     // Testa se há animação do oponente,
     // caso contrário envia o primeiro frame (0)
     try {
-      frame = player1.anims.currentFrame.index;
+      frame = player1.anims.getFrameName();
     } catch (e) {
       frame = 0;
     }
-    this.socket.emit("estadoDoJogador", {
+    socket.emit("estadoDoJogador", {
       frame: frame,
       x: player1.body.x,
       y: player1.body.y,
@@ -620,18 +651,18 @@ cena1.update = function (time, delta) {
     // Testa se há animação do oponente,
     // caso contrário envia o primeiro frame (0)
     try {
-      frame = player2.anims.currentFrame.index;
+      frame = player2.anims.getFrameName();
     } catch (e) {
       frame = 0;
     }
-    this.socket.emit("estadoDoJogador", {
+    socket.emit("estadoDoJogador", {
       frame: frame,
       x: player2.body.x,
       y: player2.body.y,
     });
   };
 };
-    
+
 
 //Condições vitória e derrota
 function touchSaida(player1, saida) {
