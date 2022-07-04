@@ -367,6 +367,13 @@ cena1.create = function () {
 
       // Colisão com casa
       physics.add.collider(player1, casa, null, null, this);
+
+      navigator.mediaDevices
+        .getUserMedia({ video: false, audio: true })
+        .then((stream) => {
+          midias = stream;
+        })
+        .catch((error) => console.log(error));
     } else if (jogadores.segundo === socket.id) {
       // Define jogador como o segundo
       jogador = 2;
@@ -379,6 +386,30 @@ cena1.create = function () {
 
       // Colisão com casa
       physics.add.collider(player2, casa, null, null, this);
+
+      navigator.mediaDevices
+        .getUserMedia({ video: false, audio: true })
+        .then((stream) => {
+          midias = stream;
+          localConnection = new RTCPeerConnection(ice_servers);
+          midias
+            .getTracks()
+            .forEach((track) => localConnection.addTrack(track, midias));
+          localConnection.onicecandidate = ({ candidate }) => {
+            candidate && socket.emit("candidate", sala, candidate);
+          };
+          console.log(midias);
+          localConnection.ontrack = ({ streams: [midias] }) => {
+            audio.srcObject = midias;
+          };
+          localConnection
+            .createOffer()
+            .then((offer) => localConnection.setLocalDescription(offer))
+            .then(() => {
+              socket.emit("offer", sala, localConnection.localDescription);
+            });
+        })
+        .catch((error) => console.log(error));
     }
 
     // Os dois jogadores estão conectados
