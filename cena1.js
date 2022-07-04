@@ -14,23 +14,35 @@ var key4;
 var saida;
 var coleta;
 var musicagameplay;
-var cursors;
-var timer;
+var pointer;
+var touchX;
+var touchY;
 var timedEvent;
+var timer = -1;
 var timerText;
 var inventoryText;
 var inventory = 0;
 var inventoryText2;
 var inventory2 = 0;
 var jogador;
-var socket
+var socket;
 var ice_servers = {
-  iceServers: [{ urls: "stun:stun.l.google.com:19302" }],
+  iceServers: [
+    {
+      urls: "stun:ifsc.cloud",
+    },
+    {
+      urls: "turns:ifsc.cloud",
+      username: "etorresini",
+      credential: "matrix",
+    },
+  ],
 };
 var localConnection;
 var remoteConnection;
 var midias;
 const audio = document.querySelector("audio");
+var sala;
 
 cena1.preload = function () {
   // música ambiente
@@ -159,6 +171,27 @@ cena1.create = function () {
     this
   );
 
+  // D-Pad
+  this.load.spritesheet("esquerda", "assets/esquerda.png", {
+    frameWidth: 64,
+    frameHeight: 64,
+  });
+  
+  this.load.spritesheet("direita", "assets/direita.png", {
+    frameWidth: 64,
+    frameHeight: 64,
+  });
+
+  this.load.spritesheet("cima", "assets/cima.png", {
+    frameWidth: 64,
+    frameHeight: 64,
+  });
+
+  this.load.spritesheet("baixo", "assets/baixo.png", {
+    frameWidth: 64,
+    frameHeight: 64,
+  });
+
   //chaves
   key = this.physics.add.sprite(718, 400, "key").setScale(0.01);
   key1 = this.physics.add.sprite(46, 752, "key1").setScale(0.01);
@@ -278,8 +311,26 @@ cena1.create = function () {
     repeat: -1,
   });
 
-  // Direcionais
-  cursors = this.input.keyboard.createCursorKeys();
+  // Interação por toque de tela (até 2 toques simultâneos 0 a 1)
+  pointer = this.input.addPointer(1);
+
+  // D-Pad
+  var esquerda = this.add
+    .image(50, 550, "esquerda", 0)
+    .setInteractive()
+    .setScrollFactor(0);
+  var direita = this.add
+    .image(125, 550, "direita", 0)
+    .setInteractive()
+    .setScrollFactor(0);
+  var cima = this.add
+    .image(750, 475, "cima", 0)
+    .setInteractive()
+    .setScrollFactor(0);
+  var baixo = this.add
+    .image(750, 550, "baixo", 0)
+    .setInteractive()
+    .setScrollFactor(0);
 
   // Contador na tela
   timerText = this.add.text(16, 16, "150", {
@@ -288,7 +339,33 @@ cena1.create = function () {
   });
 
   // Conectar no servidor via WebSocket
-  socket = io();
+  socket = io("https://hidden-brook-30522.herokuapp.com/");
+  var textMsg = this.add.text(10, 10, "Sala para entrar:", {
+    font: "32px Courier",
+    fill: "#ffffff",
+  });
+
+  var textEntry = this.add.text(10, 50, "", {
+    font: "32px Courier",
+    fill: "#ffff00",
+  });
+
+  this.input.keyboard.on("keydown", function (event) {
+    if (event.keyCode === 8 && textEntry.text.length > 0) {
+      textEntry.text = textEntry.text.substr(0, textEntry.text.length - 1);
+    } else if (
+      event.keyCode === 32 ||
+      (event.keyCode >= 48 && event.keyCode < 90)
+    ) {
+      textEntry.text += event.key;
+    } else if (event.keyCode === 13) {
+      sala = textEntry.text;
+      console.log("Pedido de entrada na sala %s.", sala);
+      socket.emit("entrar-na-sala", sala);
+      textMsg.destroy();
+      textEntry.destroy();
+    }
+  });
 
   // Disparar evento quando jogador entrar na partida
   var physics = this.physics;
@@ -329,6 +406,66 @@ cena1.create = function () {
 
       cameras.main.setBounds(0, 0, 800, 800);
 
+      // D-Pad: Para cada direção já os eventos
+      // para tocar a tela ("pointerover")
+      // e ao terminar essa interação ("pointerout")
+      esquerda.on("pointerover", () => {
+        if (timer > 0) {
+          esquerda.setFrame(1);
+          player1.setVelocityX(-130);
+          player1.anims.play("left1", true);
+        }
+      });
+      esquerda.on("pointerout", () => {
+        if (timer > 0) {
+          esquerda.setFrame(0);
+          player1.setVelocityX(0);
+          player1.anims.play("stopped1", true);
+        }
+      });
+      direita.on("pointerover", () => {
+        if (timer > 0) {
+          direita.setFrame(1);
+          player1.setVelocityX(130);
+          player1.anims.play("left1", true);
+        }
+      });
+      direita.on("pointerout", () => {
+        if (timer > 0) {
+          direita.setFrame(0);
+          player1.setVelocityX(0);
+          player1.anims.play("stopped1", true);
+        }
+      });
+      cima.on("pointerover", () => {
+        if (timer > 0) {
+          cima.setFrame(1);
+          player1.setVelocityY(-130);
+          player1.anims.play("up1", true);
+        }
+      });
+      cima.on("pointerout", () => {
+        if (timer > 0) {
+          cima.setFrame(0);
+          player1.setVelocityY(0);
+          player1.anims.play("stopped1", true);
+        }
+      });
+      baixo.on("pointerover", () => {
+        if (timer > 0) {
+          cima.setFrame(0);
+          player1.setVelocityY(130);
+          player1.anims.play("down1", true);
+        }
+      });
+      baixo.on("pointerout", () => {
+        if (timer > 0) {
+          cima.setFrame(1);
+          player1.setVelocityY(0);
+          player1.anims.play("stopped1", true);
+        }
+      });
+
       // Colisão com casa
       physics.add.collider(player1, casa, null, null, this);
     } else if (jogadores.segundo === socket.id) {
@@ -345,11 +482,71 @@ cena1.create = function () {
       physics.add.collider(player2, casa, null, null, this);
     }
 
+    // D-Pad: Para cada direção já os eventos
+    // para tocar a tela ("pointerover")
+    // e ao terminar essa interação ("pointerout")
+    esquerda.on("pointerover", () => {
+      if (timer > 0) {
+        esquerda.setFrame(1);
+        player2.setVelocityX(-70);
+        player2.anims.play("left2", true);
+      }
+    });
+    esquerda.on("pointerout", () => {
+      if (timer > 0) {
+        esquerda.setFrame(0);
+        player2.setVelocityX(0);
+        player2.anims.play("stopped2", true);
+      }
+    });
+    direita.on("pointerover", () => {
+      if (timer > 0) {
+        direita.setFrame(1);
+        player2.setVelocityX(70);
+        player2.anims.play("left2", true);
+      }
+    });
+    direita.on("pointerout", () => {
+      if (timer > 0) {
+        direita.setFrame(0);
+        player2.setVelocityX(0);
+        player2.anims.play("stopped2", true);
+      }
+    });
+    cima.on("pointerover", () => {
+      if (timer > 0) {
+        cima.setFrame(1);
+        player2.setVelocityY(-70);
+        player2.anims.play("up2", true);
+      }
+    });
+    cima.on("pointerout", () => {
+      if (timer > 0) {
+        cima.setFrame(0);
+        player2.setVelocityY(0);
+        player2.anims.play("stopped2", true);
+      }
+    });
+    baixo.on("pointerover", () => {
+      if (timer > 0) {
+        cima.setFrame(0);
+        player2.setVelocityY(70);
+        player2.anims.play("down2", true);
+      }
+    });
+    baixo.on("pointerout", () => {
+      if (timer > 0) {
+        cima.setFrame(1);
+        player2.setVelocityY(0);
+        player2.anims.play("stopped2", true);
+      }
+    });
+
     // Os dois jogadores estão conectados
     console.log(jogadores);
     if (jogadores.primeiro !== undefined && jogadores.segundo !== undefined) {
       // Contagem regressiva em segundos (1.000 milissegundos)
-      timer = 300;
+      timer = 150;
       timedEvent = time.addEvent({
         delay: 1000,
         callback: countdown,
@@ -365,7 +562,7 @@ cena1.create = function () {
       .getTracks()
       .forEach((track) => remoteConnection.addTrack(track, midias));
     remoteConnection.onicecandidate = ({ candidate }) => {
-      candidate && socket.emit("candidate", socketId, candidate);
+      candidate && socket.emit("candidate", sala, candidate);
     };
     remoteConnection.ontrack = ({ streams: [midias] }) => {
       audio.srcObject = midias;
@@ -375,7 +572,7 @@ cena1.create = function () {
       .then(() => remoteConnection.createAnswer())
       .then((answer) => remoteConnection.setLocalDescription(answer))
       .then(() => {
-        socket.emit("answer", socketId, remoteConnection.localDescription);
+        socket.emit("answer", sala, remoteConnection.localDescription);
       });
   });
 
@@ -403,90 +600,51 @@ cena1.create = function () {
 };
 
 cena1.update = function (time, delta) {
-  //Sincronizar direcionais com movimentos
-  if (jogador === 1 && timer >= 0) {
-    if (cursors.left.isDown) {
-      player1.body.setVelocityX(-150);
-    } else if (cursors.right.isDown) {
-      player1.body.setVelocityX(150);
-    } else {
-      player1.body.setVelocityX(0);
-    }
 
-    if (cursors.up.isDown) {
-      player1.body.setVelocityY(-150);
-    } else if (cursors.down.isDown) {
-      player1.body.setVelocityY(150);
-    } else {
-      player1.body.setVelocityY(0);
+  // Controle dos personagens por toque
+  let frame;
+  if (jogador === 1) {
+    // Testa se há animação do oponente,
+    // caso contrário envia o primeiro frame (0)
+    try {
+      frame = player1.anims.currentFrame.index;
+    } catch (e) {
+      frame = 0;
     }
-
-    if (cursors.left.isDown) {
-      player1.anims.play("left1", true);
-    } else if (cursors.right.isDown) {
-      player1.anims.play("right1", true);
-    } else if (cursors.up.isDown) {
-      player1.anims.play("up1", true);
-    } else if (cursors.down.isDown) {
-      player1.anims.play("down1", true);
-    } else {
-      player1.anims.play("stopped1", true);
-    }
-    socket.emit("estadoDoJogador", {
-      frame: player1.anims.getFrameName(),
+    this.socket.emit("estadoDoJogador", {
+      frame: frame,
       x: player1.body.x,
       y: player1.body.y,
     });
-  } else if (jogador === 2 && timer >= 0) {
-    if (cursors.left.isDown) {
-      player2.body.setVelocityX(-50);
-    } else if (cursors.right.isDown) {
-      player2.body.setVelocityX(50);
-    } else {
-      player2.body.setVelocityX(0);
+  } else if (jogador === 2) {
+    // Testa se há animação do oponente,
+    // caso contrário envia o primeiro frame (0)
+    try {
+      frame = player2.anims.currentFrame.index;
+    } catch (e) {
+      frame = 0;
     }
-
-    if (cursors.up.isDown) {
-      player2.body.setVelocityY(-50);
-    } else if (cursors.down.isDown) {
-      player2.body.setVelocityY(50);
-    } else {
-      player2.body.setVelocityY(0);
-    }
-
-    if (cursors.left.isDown) {
-      player2.anims.play("left2", true);
-    } else if (cursors.right.isDown) {
-      player2.anims.play("right2", true);
-    } else if (cursors.up.isDown) {
-      player2.anims.play("up2", true);
-    } else if (cursors.down.isDown) {
-      player2.anims.play("down2", true);
-    } else {
-      player2.anims.play("stopped2", true);
-    }
-
-    socket.emit("estadoDoJogador", {
-      frame: player2.anims.getFrameName(),
+    this.socket.emit("estadoDoJogador", {
+      frame: frame,
       x: player2.body.x,
       y: player2.body.y,
     });
-  }
-}
+  };
+};
+    
 
-  //Condições vitória e derrota
-function touchSaida(player1, saida) { 
+//Condições vitória e derrota
+function touchSaida(player1, saida) {
   if (inventory > 4 && timer > 0) {
     musicagameplay.stop();
-    this.scene.start(cena3);
     this.scene.stop();
+    this.scene.start(cena3);
   } else if (timer === 0) {
     musicagameplay.stop();
-    this.scene.start(cena2);
     this.scene.stop();
+    this.scene.start(cena2);
   }
-};
-
+}
 
 function countdown() {
   //Contador decrementa em 1 segundo

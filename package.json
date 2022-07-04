@@ -2,12 +2,16 @@
   "name": "gravityfallsgame",
   "version": "0.1.0",
   "description": "Projeto desenvolvido na Oitava fase do integrado de Telecomunicações do IFSC São josé",
-  "engines":{
+  "devDependencies": {
+    "nodemon": "^2.0.16"
+  },
+  "engines": {
     "node": ">=16.x"
   },
   "main": "index.js",
   "scripts": {
-    "start": "node servidor.js"
+    "start": "node servidor.js",
+    "dev": "nodemon servidor.js"
   },
   "repository": {
     "type": "git",
