@@ -51,19 +51,18 @@ var botaoSala5;
 var botaoSala6;
 
 //Funções para mostrar as telas do jogo
-  function aparecerSalas() {
-    botaoSala1.setVisible(false);
-    botaoSala2.setVisible(false);
-    botaoSala3.setVisible(false);
-    botaoSala4.setVisible(false);
-    botaoSala5.setVisible(false);
-    botaoSala6.setVsible(false);
-  };
+function aparecerSalas() {
+  botaoSala1.setVisible(false);
+  botaoSala2.setVisible(false);
+  botaoSala3.setVisible(false);
+  botaoSala4.setVisible(false);
+  botaoSala5.setVisible(false);
+  botaoSala6.setVisible(false);
+}
 
 cena1.preload = function () {
-
   this.load.image("botaoSala", "./assets/play.png");
-  
+
   // música ambiente
   this.load.audio("musicagameplay", "./sounds/musicagameplay.mp3");
 
@@ -141,6 +140,26 @@ cena1.preload = function () {
   });
 
   this.load.spritesheet("baixo", "assets/baixo.png", {
+    frameWidth: 64,
+    frameHeight: 64,
+  });
+
+  this.load.spritesheet("esquerda1", "assets/esquerda.png", {
+    frameWidth: 64,
+    frameHeight: 64,
+  });
+
+  this.load.spritesheet("direita1", "assets/direita.png", {
+    frameWidth: 64,
+    frameHeight: 64,
+  });
+
+  this.load.spritesheet("cima1", "assets/cima.png", {
+    frameWidth: 64,
+    frameHeight: 64,
+  });
+
+  this.load.spritesheet("baixo1", "assets/baixo.png", {
     frameWidth: 64,
     frameHeight: 64,
   });
@@ -334,22 +353,10 @@ cena1.create = function () {
   pointer = this.input.addPointer(1);
 
   // D-Pad
-  var esquerda = this.add
-    .image(50, 550, "esquerda", 0)
-    .setInteractive()
-    .setScrollFactor(0);
-  var direita = this.add
-    .image(125, 550, "direita", 0)
-    .setInteractive()
-    .setScrollFactor(0);
-  var cima = this.add
-    .image(750, 475, "cima", 0)
-    .setInteractive()
-    .setScrollFactor(0);
-  var baixo = this.add
-    .image(750, 550, "baixo", 0)
-    .setInteractive()
-    .setScrollFactor(0);
+  //var esquerda = this.add.image(50, 550, "esquerda", 0).setInteractive();
+  var direita = this.add.image(125, 550, "direita", 0).setInteractive();
+  var cima = this.add.image(750, 475, "cima", 0).setInteractive();
+  var baixo = this.add.image(750, 550, "baixo", 0).setInteractive();
 
   // Contador na tela
   timerText = this.add.text(16, 16, "150", {
@@ -389,59 +396,79 @@ cena1.create = function () {
     .image(300, 300, "botaoSala")
     .setInteractive()
     .setScale(0.2);
-  
+
   //Quando clicar em cada botão, vai para uma sala específica
   botaoSala1.on("pointerdown", function () {
     sala = 1;
-    console.log("Um player selecionou a sala %s.", sala);
+    console.log("Pedido de entrada na sala %s.", sala);
     socket.emit("entrar-na-sala", sala);
+    botaoSala1.setVisible(false);
+    botaoSala2.setVisible(false);
+    botaoSala3.setVisible(false);
+    botaoSala4.setVisible(false);
+    botaoSala5.setVisible(false);
+    botaoSala6.setVisible(false);
+    textMsg.setVisible(false);
   });
   botaoSala2.on("pointerdown", function () {
     sala = 2;
     console.log("Pedido de entrada na sala %s.", sala);
     socket.emit("entrar-na-sala", sala);
+    botaoSala1.setVisible(false);
+    botaoSala2.setVisible(false);
+    botaoSala3.setVisible(false);
+    botaoSala4.setVisible(false);
+    botaoSala5.setVisible(false);
+    botaoSala6.setVisible(false);
+    textMsg.setVisible(false);
   });
   botaoSala3.on("pointerdown", function () {
     sala = 3;
     console.log("Pedido de entrada na sala %s.", sala);
     socket.emit("entrar-na-sala", sala);
+    botaoSala1.setVisible(false);
+    botaoSala2.setVisible(false);
+    botaoSala3.setVisible(false);
+    botaoSala4.setVisible(false);
+    botaoSala5.setVisible(false);
+    botaoSala6.setVisible(false);
+    textMsg.setVisible(false);
   });
   botaoSala4.on("pointerdown", function () {
     sala = 4;
     console.log("Pedido de entrada na sala %s.", sala);
     socket.emit("entrar-na-sala", sala);
+    botaoSala1.setVisible(false);
+    botaoSala2.setVisible(false);
+    botaoSala3.setVisible(false);
+    botaoSala4.setVisible(false);
+    botaoSala5.setVisible(false);
+    botaoSala6.setVisible(false);
+    textMsg.setVisible(false);
   });
   botaoSala5.on("pointerdown", function () {
     sala = 5;
     console.log("Pedido de entrada na sala %s.", sala);
     socket.emit("entrar-na-sala", sala);
+    botaoSala1.setVisible(false);
+    botaoSala2.setVisible(false);
+    botaoSala3.setVisible(false);
+    botaoSala4.setVisible(false);
+    botaoSala5.setVisible(false);
+    botaoSala6.setVisible(false);
+    textMsg.setVisible(false);
   });
-    botaoSala6.on("pointerdown", function () {
-      sala = 6;
-      console.log("Pedido de entrada na sala %s.", sala);
-      socket.emit("entrar-na-sala", sala);
-    });
-
-  var textEntry = this.add.text(10, 50, "", {
-    font: "32px Courier",
-    fill: "#ffff00",
-  });
-
-  this.input.keyboard.on("keydown", function (event) {
-    if (event.keyCode === 8 && textEntry.text.length > 0) {
-      textEntry.text = textEntry.text.substr(0, textEntry.text.length - 1);
-    } else if (
-      event.keyCode === 32 ||
-      (event.keyCode >= 48 && event.keyCode < 90)
-    ) {
-      textEntry.text += event.key;
-    } else if (event.keyCode === 13) {
-      sala = textEntry.text;
-      console.log("Pedido de entrada na sala %s.", sala);
-      socket.emit("entrar-na-sala", sala);
-      textMsg.destroy();
-      textEntry.destroy();
-    }
+  botaoSala6.on("pointerdown", function () {
+    sala = 6;
+    console.log("Pedido de entrada na sala %s.", sala);
+    socket.emit("entrar-na-sala", sala);
+    botaoSala1.setVisible(false);
+    botaoSala2.setVisible(false);
+    botaoSala3.setVisible(false);
+    botaoSala4.setVisible(false);
+    botaoSala5.setVisible(false);
+    botaoSala6.setVisible(false);
+    textMsg.setVisible(false);
   });
 
   // Disparar evento quando jogador entrar na partida
@@ -462,6 +489,7 @@ cena1.create = function () {
     fill: "#fff",
   });
 
+  var add = this.add;
   socket.on("jogadores", function (jogadores) {
     if (jogadores.primeiro === socket.id) {
       // Define jogador como o primeiro
@@ -486,6 +514,11 @@ cena1.create = function () {
       // D-Pad: Para cada direção já os eventos
       // para tocar a tela ("pointerover")
       // e ao terminar essa interação ("pointerout")
+      var esquerda = add
+        .image(400, 750, "esquerda", 0)
+        .setInteractive()
+        .setScale(0.3)
+        .setScrollFactor(0);
       esquerda.on("pointerover", () => {
         if (timer > 0) {
           esquerda.setFrame(1);
@@ -568,6 +601,7 @@ cena1.create = function () {
       // D-Pad: Para cada direção já os eventos
       // para tocar a tela ("pointerover")
       // e ao terminar essa interação ("pointerout")
+      var esquerda = add.image(50, 550, "esquerda", 0).setInteractive();
       esquerda.on("pointerover", () => {
         if (timer > 0) {
           esquerda.setFrame(1);
@@ -708,7 +742,6 @@ cena1.create = function () {
 };
 
 cena1.update = function (time, delta) {
-
   // Controle dos personagens por toque
   let frame;
   if (jogador === 1) {
@@ -719,7 +752,7 @@ cena1.update = function (time, delta) {
     } catch (e) {
       frame = 0;
     }
-    socket.emit("estadoDoJogador", {
+    socket.emit("estadoDoJogador", sala, {
       frame: frame,
       x: player1.body.x,
       y: player1.body.y,
@@ -732,14 +765,13 @@ cena1.update = function (time, delta) {
     } catch (e) {
       frame = 0;
     }
-    socket.emit("estadoDoJogador", {
+    socket.emit("estadoDoJogador", sala, {
       frame: frame,
       x: player2.body.x,
       y: player2.body.y,
     });
-  };
+  }
 };
-
 
 //Condições vitória e derrota
 function touchSaida(player1, saida) {
