@@ -49,6 +49,8 @@ var botaoSala3;
 var botaoSala4;
 var botaoSala5;
 var botaoSala6;
+var cameras;
+var camera0;
 
 //Funções para mostrar as telas do jogo
 function aparecerSalas() {
@@ -163,6 +165,8 @@ cena1.preload = function () {
     frameWidth: 64,
     frameHeight: 64,
   });
+
+  this.load.image("switch", "./assets/switch.png");
 };
 
 //música de fundo
@@ -175,6 +179,9 @@ cena1.create = function () {
   musicagameplay.play();
   musicagameplay.setLoop(true);
 
+  // imagem de fundo
+  this.add.image(800, 400, "switch");
+
   // mapa
   const map = this.make.tilemap({ key: "mapa" });
 
@@ -182,53 +189,16 @@ cena1.create = function () {
   const tileset2 = map.addTilesetImage("assets2", "tilesets2");
 
   // camadas
-  const belowLayer1 = map.createLayer("belowlayer1", tileset, 0, 0);
-  const belowLayer2 = map.createLayer("belowlayer2", tileset2, 0, 0);
-  const worldLayer = map.createLayer("worldlayer", tileset2, 0, 0);
+  const belowLayer1 = map.createLayer("belowlayer1", tileset, 400, 0);
+  const belowLayer2 = map.createLayer("belowlayer2", tileset2, 400, 0);
+  const worldLayer = map.createLayer("worldlayer", tileset2, 400, 0);
 
   // colisão com camadas
   worldLayer.setCollisionByProperty({ collides: true });
 
   //casa
-  casa = this.physics.add.sprite(750, 700, "casa", 0).setScale(0.06);
+  casa = this.physics.add.sprite(1150, 700, "casa", 0).setScale(0.06);
   casa.body.setImmovable(true);
-
-  // Botão de ativar/desativar tela cheia
-  var button = this.add
-    .image(800 - 16, 16, "fullscreen", 0)
-    .setOrigin(1, 0)
-    .setInteractive();
-
-  // Ao clicar no botão de tela cheia
-  button.on(
-    "pointerup",
-    function () {
-      if (this.scale.isFullscreen) {
-        button.setFrame(0);
-        this.scale.stopFullscreen();
-      } else {
-        button.setFrame(1);
-        this.scale.startFullscreen();
-      }
-    },
-    this
-  );
-
-  // Tecla "F" também ativa/desativa tela cheia
-  var FKey = this.input.keyboard.addKey("F");
-  FKey.on(
-    "down",
-    function () {
-      if (this.scale.isFullscreen) {
-        button.setFrame(0);
-        this.scale.stopFullscreen();
-      } else {
-        button.setFrame(1);
-        this.scale.startFullscreen();
-      }
-    },
-    this
-  );
 
   //chaves
   key = this.physics.add.sprite(718, 400, "key").setScale(0.01);
@@ -352,12 +322,6 @@ cena1.create = function () {
   // Interação por toque de tela (até 2 toques simultâneos 0 a 1)
   pointer = this.input.addPointer(1);
 
-  // D-Pad
-  //var esquerda = this.add.image(50, 550, "esquerda", 0).setInteractive();
-  var direita = this.add.image(125, 550, "direita", 0).setInteractive();
-  var cima = this.add.image(750, 475, "cima", 0).setInteractive();
-  var baixo = this.add.image(750, 550, "baixo", 0).setInteractive();
-
   // Contador na tela
   timerText = this.add.text(16, 16, "150", {
     fontSize: "32px",
@@ -473,7 +437,7 @@ cena1.create = function () {
 
   // Disparar evento quando jogador entrar na partida
   var physics = this.physics;
-  var cameras = this.cameras;
+  cameras = this.cameras;
   var time = this.time;
   var add = this.add;
 
@@ -490,6 +454,11 @@ cena1.create = function () {
   });
 
   var add = this.add;
+  camera0 = cameras.add(400, 0, 800, 800).setViewport(400, 0, 800, 800);
+  //  camera1.setSize(800, 800)
+  //camera2 = cameras.add(400, 0, 1200, 800);
+  //camera3 = cameras.add(1200, 0, 1600, 800);
+
   socket.on("jogadores", function (jogadores) {
     if (jogadores.primeiro === socket.id) {
       // Define jogador como o primeiro
@@ -505,11 +474,11 @@ cena1.create = function () {
       physics.add.collider(player1, worldLayer, null, null, this);
 
       // Câmera seguindo o personagem 1
-      cameras.main.startFollow(player1);
+      camera0.setBounds(400, 0, 1200, 800);
 
-      cameras.main.setZoom(8);
+      camera0.setZoom(8);
 
-      cameras.main.setBounds(0, 0, 800, 800);
+      camera0.startFollow(player1);
 
       // D-Pad: Para cada direção já os eventos
       // para tocar a tela ("pointerover")
@@ -739,6 +708,43 @@ cena1.create = function () {
       player1.y = y + 8;
     }
   });
+
+  // Botão de ativar/desativar tela cheia
+  var button = this.add
+    .image(1525 - 16, 16, "fullscreen", 0)
+    .setOrigin(1, 0)
+    .setInteractive();
+
+  // Ao clicar no botão de tela cheia
+  button.on(
+    "pointerup",
+    function () {
+      if (this.scale.isFullscreen) {
+        button.setFrame(0);
+        this.scale.stopFullscreen();
+      } else {
+        button.setFrame(1);
+        this.scale.startFullscreen();
+      }
+    },
+    this
+  );
+
+  // Tecla "F" também ativa/desativa tela cheia
+  var FKey = this.input.keyboard.addKey("F");
+  FKey.on(
+    "down",
+    function () {
+      if (this.scale.isFullscreen) {
+        button.setFrame(0);
+        this.scale.stopFullscreen();
+      } else {
+        button.setFrame(1);
+        this.scale.startFullscreen();
+      }
+    },
+    this
+  );
 };
 
 cena1.update = function (time, delta) {
