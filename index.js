@@ -5,7 +5,7 @@ import { cena3 } from "./cena3.js";
 
 const config = {
   type: Phaser.AUTO,
-  width: 800,
+  width: 1600,
   height: 800,
   parent: "game-container",
   physics: {
@@ -19,7 +19,7 @@ const config = {
     mode: Phaser.Scale.FIT,
     parent: "game-container",
     autoCenter: Phaser.Scale.CENTER_BOTH,
-    width: 800,
+    width: 1600,
     height: 800,
   },
   scene: [cena0, cena1, cena2, cena3],
