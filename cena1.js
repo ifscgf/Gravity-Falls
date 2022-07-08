@@ -795,8 +795,8 @@ function countdown() {
 //Jogador 1 perde se encostar no Jogador 2
 function hitplayer(player1, player2) {
   musicagameplay.stop();
-  this.scene.start(cena2);
   this.scene.stop();
+  this.scene.start(cena2);
 }
 
 function collectKey(player1, key) {
