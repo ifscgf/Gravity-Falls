@@ -321,41 +321,78 @@ cena1.create = function () {
   pointer = this.input.addPointer(1);
 
   // Contador na tela
-  timerText = this.add.text(16, 16, "150", {
-    fontSize: "32px",
+  timerText = this.add.text(1250, 30, "150", {
+    fontSize: "64px",
     fill: "#fff",
   });
 
+  // Botão de ativar/desativar tela cheia
+  var button = this.add
+    .image(1500 - 16, 16, "fullscreen", 0)
+    .setOrigin(1, 0)
+    .setInteractive();
+
+  // Ao clicar no botão de tela cheia
+  button.on(
+    "pointerup",
+    function () {
+      if (this.scale.isFullscreen) {
+        button.setFrame(0);
+        this.scale.stopFullscreen();
+      } else {
+        button.setFrame(1);
+        this.scale.startFullscreen();
+      }
+    },
+    this
+  );
+
+  // Tecla "F" também ativa/desativa tela cheia
+  var FKey = this.input.keyboard.addKey("F");
+  FKey.on(
+    "down",
+    function () {
+      if (this.scale.isFullscreen) {
+        button.setFrame(0);
+        this.scale.stopFullscreen();
+      } else {
+        button.setFrame(1);
+        this.scale.startFullscreen();
+      }
+    },
+    this
+  );
+
   // Conectar no servidor via WebSocket
   socket = io("https://hidden-brook-30522.herokuapp.com/");
-  var textMsg = this.add.text(10, 10, "Sala para entrar:", {
-    font: "32px Courier",
+  var textMsg = this.add.text(200, 30, "SALAS", {
+    font: "60px Courier",
     fill: "#ffffff",
   });
 
   //Criando os botões para escolher a sala
   botaoSala1 = this.add
-    .image(290, 100, "botaoSala")
-    .setInteractive()
-    .setScale(0.2);
-  botaoSala2 = this.add
     .image(290, 200, "botaoSala")
     .setInteractive()
     .setScale(0.2);
-  botaoSala3 = this.add
+  botaoSala2 = this.add
     .image(290, 300, "botaoSala")
     .setInteractive()
     .setScale(0.2);
-  botaoSala4 = this.add
+  botaoSala3 = this.add
     .image(290, 400, "botaoSala")
     .setInteractive()
     .setScale(0.2);
-  botaoSala5 = this.add
+  botaoSala4 = this.add
     .image(290, 500, "botaoSala")
     .setInteractive()
     .setScale(0.2);
-  botaoSala6 = this.add
+  botaoSala5 = this.add
     .image(290, 600, "botaoSala")
+    .setInteractive()
+    .setScale(0.2);
+  botaoSala6 = this.add
+    .image(290, 700, "botaoSala")
     .setInteractive()
     .setScale(0.2);
 
@@ -439,8 +476,8 @@ cena1.create = function () {
   var time = this.time;
   var add = this.add;
 
-  inventoryText = add.text(900, 758, "0", {
-    fontSize: "32px",
+  inventoryText = add.text(1300, 700, "0", {
+    fontSize: "64px",
     fill: "#fff",
   });
 
@@ -449,7 +486,7 @@ cena1.create = function () {
   camera0 = this.cameras.add(400, 0, 800, 800);
   camera0.scrollX = 400;
   camera0.scrollY = 0;
-  
+
   socket.on("jogadores", function (jogadores) {
     if (jogadores.primeiro === socket.id) {
       // Define jogador como o primeiro
@@ -471,11 +508,7 @@ cena1.create = function () {
       // D-Pad: Para cada direção já os eventos
       // para tocar a tela ("pointerover")
       // e ao terminar essa interação ("pointerout")
-      var esquerda = add
-        .image(400, 750, "esquerda", 0)
-        .setInteractive()
-        .setScale(0.3)
-        .setScrollFactor(0);
+      var esquerda = add.image(58, 400, "esquerda", 0).setInteractive();
       esquerda.on("pointerover", () => {
         if (timer > 0) {
           esquerda.setFrame(1);
@@ -490,6 +523,8 @@ cena1.create = function () {
           player1.anims.play("stopped1", true);
         }
       });
+
+      var direita = add.image(150, 400, "direita", 0).setInteractive();
       direita.on("pointerover", () => {
         if (timer > 0) {
           direita.setFrame(1);
@@ -504,6 +539,8 @@ cena1.create = function () {
           player1.anims.play("stopped1", true);
         }
       });
+
+      var cima = add.image(1510, 345, "cima", 0).setInteractive();
       cima.on("pointerover", () => {
         if (timer > 0) {
           cima.setFrame(1);
@@ -518,6 +555,8 @@ cena1.create = function () {
           player1.anims.play("stopped1", true);
         }
       });
+
+       var baixo = add.image(1510, 445, "baixo", 0).setInteractive();
       baixo.on("pointerover", () => {
         if (timer > 0) {
           baixo.setFrame(1);
@@ -558,7 +597,7 @@ cena1.create = function () {
       // D-Pad: Para cada direção já os eventos
       // para tocar a tela ("pointerover")
       // e ao terminar essa interação ("pointerout")
-      var esquerda = add.image(50, 550, "esquerda", 0).setInteractive();
+      var esquerda = add.image(58, 400, "esquerda", 0).setInteractive();
       esquerda.on("pointerover", () => {
         if (timer > 0) {
           esquerda.setFrame(1);
@@ -573,6 +612,8 @@ cena1.create = function () {
           player2.anims.play("stopped2", true);
         }
       });
+
+      var direita = add.image(150, 400, "direita", 0).setInteractive();
       direita.on("pointerover", () => {
         if (timer > 0) {
           direita.setFrame(1);
@@ -587,6 +628,8 @@ cena1.create = function () {
           player2.anims.play("stopped2", true);
         }
       });
+
+      var cima = add.image(1510, 345, "cima", 0).setInteractive();
       cima.on("pointerover", () => {
         if (timer > 0) {
           cima.setFrame(1);
@@ -601,6 +644,8 @@ cena1.create = function () {
           player2.anims.play("stopped2", true);
         }
       });
+
+      var baixo = add.image(1510, 445, "baixo", 0).setInteractive();
       baixo.on("pointerover", () => {
         if (timer > 0) {
           baixo.setFrame(1);
@@ -696,43 +741,6 @@ cena1.create = function () {
       player1.y = y + 8;
     }
   });
-
-  // Botão de ativar/desativar tela cheia
-  var button = this.add
-    .image(1525 - 16, 16, "fullscreen", 0)
-    .setOrigin(1, 0)
-    .setInteractive();
-
-  // Ao clicar no botão de tela cheia
-  button.on(
-    "pointerup",
-    function () {
-      if (this.scale.isFullscreen) {
-        button.setFrame(0);
-        this.scale.stopFullscreen();
-      } else {
-        button.setFrame(1);
-        this.scale.startFullscreen();
-      }
-    },
-    this
-  );
-
-  // Tecla "F" também ativa/desativa tela cheia
-  var FKey = this.input.keyboard.addKey("F");
-  FKey.on(
-    "down",
-    function () {
-      if (this.scale.isFullscreen) {
-        button.setFrame(0);
-        this.scale.stopFullscreen();
-      } else {
-        button.setFrame(1);
-        this.scale.startFullscreen();
-      }
-    },
-    this
-  );
 };
 
 cena1.update = function (time, delta) {
