@@ -22,8 +22,6 @@ var timer = -1;
 var timerText;
 var inventoryText;
 var inventory = 0;
-var inventoryText2;
-var inventory2 = 0;
 var jogador;
 var socket;
 var ice_servers = {
@@ -197,22 +195,22 @@ cena1.create = function () {
   worldLayer.setCollisionByProperty({ collides: true });
 
   //casa
-  casa = this.physics.add.sprite(1150, 700, "casa", 0).setScale(0.06);
+  casa = this.physics.add.sprite(1050, 670, "casa", 0).setScale(0.06);
   casa.body.setImmovable(true);
 
   //chaves
-  key = this.physics.add.sprite(718, 400, "key").setScale(0.01);
-  key1 = this.physics.add.sprite(46, 752, "key1").setScale(0.01);
-  key2 = this.physics.add.sprite(494, 208, "key2").setScale(0.01);
-  key3 = this.physics.add.sprite(654, 272, "key3").setScale(0.01);
-  key4 = this.physics.add.sprite(686, 48, "key4").setScale(0.01);
+  key = this.physics.add.sprite(1118, 450, "key").setScale(0.01);
+  key1 = this.physics.add.sprite(446, 752, "key1").setScale(0.01);
+  key2 = this.physics.add.sprite(550, 250, "key2").setScale(0.01);
+  key3 = this.physics.add.sprite(900, 400, "key3").setScale(0.01);
+  key4 = this.physics.add.sprite(1086, 48, "key4").setScale(0.01);
 
   //bandeiras
-  saida = this.physics.add.sprite(400, 10, "saida");
+  saida = this.physics.add.sprite(800, 10, "saida");
 
   // spawn
-  player1 = this.physics.add.sprite(400, 768, "player1", 0).setScale(0.3);
-  player2 = this.physics.add.sprite(752, 48, "player2", 0);
+  player1 = this.physics.add.sprite(1000, 670, "player1", 0).setScale(0.3);
+  player2 = this.physics.add.sprite(570, 60, "player2", 0);
 
   //coletar chaves
   this.physics.add.overlap(player1, key, collectKey, null, this);
@@ -337,27 +335,27 @@ cena1.create = function () {
 
   //Criando os botões para escolher a sala
   botaoSala1 = this.add
-    .image(100, 100, "botaoSala")
+    .image(290, 100, "botaoSala")
     .setInteractive()
     .setScale(0.2);
   botaoSala2 = this.add
-    .image(100, 200, "botaoSala")
+    .image(290, 200, "botaoSala")
     .setInteractive()
     .setScale(0.2);
   botaoSala3 = this.add
-    .image(100, 300, "botaoSala")
+    .image(290, 300, "botaoSala")
     .setInteractive()
     .setScale(0.2);
   botaoSala4 = this.add
-    .image(300, 100, "botaoSala")
+    .image(290, 400, "botaoSala")
     .setInteractive()
     .setScale(0.2);
   botaoSala5 = this.add
-    .image(300, 200, "botaoSala")
+    .image(290, 500, "botaoSala")
     .setInteractive()
     .setScale(0.2);
   botaoSala6 = this.add
-    .image(300, 300, "botaoSala")
+    .image(290, 600, "botaoSala")
     .setInteractive()
     .setScale(0.2);
 
@@ -441,14 +439,7 @@ cena1.create = function () {
   var time = this.time;
   var add = this.add;
 
-  inventoryText = add.text(768, 758, "0", {
-    fontSize: "32px",
-    fill: "#fff",
-  });
-
-  inventoryText.setScrollFactor(0);
-
-  inventoryText2 = add.text(768, 16, "0", {
+  inventoryText = add.text(900, 758, "0", {
     fontSize: "32px",
     fill: "#fff",
   });

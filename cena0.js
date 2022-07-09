@@ -15,9 +15,9 @@ cena0.create = function () {
   abertura.play();
   abertura.setLoop(false);
 
-  this.add.image(380, 300, "abertura").setScale(0.3);
-  this.add.image(550, 610, "stan").setScale(0.4);
-  var button = this.add.image(400, 630, "play").setInteractive().setScale(0.5);
+  this.add.image(780, 200, "abertura").setScale(0.3);
+  this.add.image(950, 610, "stan").setScale(0.4);
+  var button = this.add.image(800, 630, "play").setInteractive().setScale(0.5);
 
   button.on(
     "pointerdown",
