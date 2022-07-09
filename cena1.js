@@ -454,11 +454,11 @@ cena1.create = function () {
   });
 
   var add = this.add;
-  camera0 = cameras.add(400, 0, 800, 800).setViewport(400, 0, 800, 800);
-  //  camera1.setSize(800, 800)
-  //camera2 = cameras.add(400, 0, 1200, 800);
-  //camera3 = cameras.add(1200, 0, 1600, 800);
-
+  cameras.main.setBounds(0, 0, 1600, 800);
+  camera0 = this.cameras.add(400, 0, 800, 800);
+  camera0.scrollX = 400;
+  camera0.scrollY = 0;
+  
   socket.on("jogadores", function (jogadores) {
     if (jogadores.primeiro === socket.id) {
       // Define jogador como o primeiro
@@ -474,10 +474,7 @@ cena1.create = function () {
       physics.add.collider(player1, worldLayer, null, null, this);
 
       // Câmera seguindo o personagem 1
-      camera0.setBounds(400, 0, 1200, 800);
-
       camera0.setZoom(8);
-
       camera0.startFollow(player1);
 
       // D-Pad: Para cada direção já os eventos
