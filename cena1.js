@@ -218,7 +218,11 @@ cena1.create = function () {
   this.physics.add.overlap(player1, key2, collectKey, null, this);
   this.physics.add.overlap(player1, key3, collectKey, null, this);
   this.physics.add.overlap(player1, key4, collectKey, null, this);
+
+  // Função de colisão entre jogadores
   this.physics.add.overlap(player1, player2, hitplayer, null, this);
+
+  // Função de colisão entre o jogador 1 e a saída
   this.physics.add.overlap(player1, saida, touchSaida, null, this);
 
   //frames das animações jogador 1
@@ -660,6 +664,10 @@ cena1.create = function () {
           player2.anims.play("stopped2", true);
         }
       });
+
+      camera0.setZoom(2);
+      camera0.startFollow(player2);
+
 
       navigator.mediaDevices
         .getUserMedia({ video: false, audio: true })
