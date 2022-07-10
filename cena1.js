@@ -528,7 +528,7 @@ cena1.create = function () {
         }
       });
 
-      var direita = add.image(150, 400, "direita", 0).setInteractive().setScale(1.5);
+      var direita = add.image(151, 400, "direita", 0).setInteractive().setScale(1.5);
       direita.on("pointerover", () => {
         if (timer > 0) {
           direita.setFrame(1);
@@ -544,7 +544,7 @@ cena1.create = function () {
         }
       });
 
-      var cima = add.image(1510, 345, "cima", 0).setInteractive();
+      var cima = add.image(1510, 330, "cima", 0).setInteractive().setScale(1.5);
       cima.on("pointerover", () => {
         if (timer > 0) {
           cima.setFrame(1);
@@ -560,7 +560,7 @@ cena1.create = function () {
         }
       });
 
-       var baixo = add.image(1510, 445, "baixo", 0).setInteractive();
+       var baixo = add.image(1510, 460, "baixo", 0).setInteractive().setScale(1.5);
       baixo.on("pointerover", () => {
         if (timer > 0) {
           baixo.setFrame(1);
@@ -601,7 +601,7 @@ cena1.create = function () {
       // D-Pad: Para cada direção já os eventos
       // para tocar a tela ("pointerover")
       // e ao terminar essa interação ("pointerout")
-      var esquerda = add.image(58, 400, "esquerda", 0).setInteractive();
+      var esquerda = add.image(50, 400, "esquerda", 0).setInteractive().setScale(1.5);
       esquerda.on("pointerover", () => {
         if (timer > 0) {
           esquerda.setFrame(1);
@@ -617,7 +617,7 @@ cena1.create = function () {
         }
       });
 
-      var direita = add.image(150, 400, "direita", 0).setInteractive();
+      var direita = add.image(151, 400, "direita", 0).setInteractive().setScale(1.5);
       direita.on("pointerover", () => {
         if (timer > 0) {
           direita.setFrame(1);
@@ -633,7 +633,7 @@ cena1.create = function () {
         }
       });
 
-      var cima = add.image(1510, 345, "cima", 0).setInteractive();
+      var cima = add.image(1510, 330, "cima", 0).setInteractive().setScale(1.5);
       cima.on("pointerover", () => {
         if (timer > 0) {
           cima.setFrame(1);
@@ -649,7 +649,7 @@ cena1.create = function () {
         }
       });
 
-      var baixo = add.image(1510, 445, "baixo", 0).setInteractive();
+      var baixo = add.image(1510, 460, "baixo", 0).setInteractive().setScale(1.5);
       baixo.on("pointerover", () => {
         if (timer > 0) {
           baixo.setFrame(1);
@@ -785,13 +785,13 @@ cena1.update = function (time, delta) {
 
 //Condições vitória e derrota
 function touchSaida(player1, saida) {
-  if (inventory > 4 && timer > 0) {
+  if (inventory === 5 && timer > 0) {
     musicagameplay.stop();
-    this.scene.stop();
+    this.scene.stop(cena1);
     this.scene.start(cena3);
   } else if (timer === 0) {
     musicagameplay.stop();
-    this.scene.stop();
+    this.scene.stop(cena1);
     this.scene.start(cena2);
   }
 }
