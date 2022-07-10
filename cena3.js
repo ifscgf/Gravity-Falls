@@ -14,8 +14,8 @@ cena3.create = function () {
   encerramento.play();
   encerramento.setLoop(true);
   
-  this.add.image(400, 400, "vitória");
-  var button = this.add.image(385, 700, "menu").setInteractive();
+  this.add.image(800, 400, "vitória");
+  var button = this.add.image(785, 700, "menu").setInteractive();
 
   button.on(
     "pointerdown",

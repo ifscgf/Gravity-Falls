@@ -82,13 +82,13 @@ cena1.preload = function () {
 
   // personagens
   this.load.spritesheet("player1", "./assets/sprite1.png", {
-    frameWidth: 32,
-    frameHeight: 32,
+    frameWidth: 15,
+    frameHeight: 16,
   });
 
   this.load.spritesheet("player2", "./assets/sprite2.png", {
-    frameWidth: 15,
-    frameHeight: 16,
+    frameWidth: 32,
+    frameHeight: 32,
   });
 
   //saída
@@ -209,8 +209,8 @@ cena1.create = function () {
   saida = this.physics.add.sprite(800, 10, "saida");
 
   // spawn
-  player1 = this.physics.add.sprite(1000, 670, "player1", 0).setScale(0.3);
-  player2 = this.physics.add.sprite(570, 60, "player2", 0);
+  player1 = this.physics.add.sprite(1000, 670, "player1", 0).setScale(1.2);
+  player2 = this.physics.add.sprite(570, 60, "player2", 0).setScale(0.5);
 
   //coletar chaves
   this.physics.add.overlap(player1, key, collectKey, null, this);
@@ -225,7 +225,8 @@ cena1.create = function () {
   this.anims.create({
     key: "left1",
     frames: this.anims.generateFrameNumbers("player1", {
-      frames: [6, 7],
+      start: 3,
+      end: 5,
     }),
     frameRate: 7,
     repeat: -1,
@@ -234,7 +235,8 @@ cena1.create = function () {
   this.anims.create({
     key: "right1",
     frames: this.anims.generateFrameNumbers("player1", {
-      frames: [3, 4],
+      start: 6,
+      end: 8,
     }),
     frameRate: 7,
     repeat: -1,
@@ -243,7 +245,7 @@ cena1.create = function () {
   this.anims.create({
     key: "stopped1",
     frames: this.anims.generateFrameNumbers("player1", {
-      frames: [1, 2, 8],
+      frames: [2],
     }),
     frameRate: 3,
     repeat: -1,
@@ -252,16 +254,18 @@ cena1.create = function () {
   this.anims.create({
     key: "up1",
     frames: this.anims.generateFrameNumbers("player1", {
-      frames: [9, 11],
+      start: 9,
+      end: 11,
     }),
-    frameRate: 5,
+    frameRate: 7,
     repeat: -1,
   });
 
   this.anims.create({
     key: "down1",
     frames: this.anims.generateFrameNumbers("player1", {
-      frames: [0, 5],
+      start: 0,
+      end: 2,
     }),
     frameRate: 7,
     repeat: -1,
@@ -271,8 +275,7 @@ cena1.create = function () {
   this.anims.create({
     key: "left2",
     frames: this.anims.generateFrameNumbers("player2", {
-      start: 3,
-      end: 5,
+      frames: [6, 7],
     }),
     frameRate: 7,
     repeat: -1,
@@ -281,8 +284,7 @@ cena1.create = function () {
   this.anims.create({
     key: "right2",
     frames: this.anims.generateFrameNumbers("player2", {
-      start: 6,
-      end: 8,
+      frames: [3, 4],
     }),
     frameRate: 7,
     repeat: -1,
@@ -291,7 +293,7 @@ cena1.create = function () {
   this.anims.create({
     key: "stopped2",
     frames: this.anims.generateFrameNumbers("player2", {
-      frames: [2],
+      frames: [1, 2, 8],
     }),
     frameRate: 3,
     repeat: -1,
@@ -300,18 +302,16 @@ cena1.create = function () {
   this.anims.create({
     key: "up2",
     frames: this.anims.generateFrameNumbers("player2", {
-      start: 9,
-      end: 11,
+      frames: [9, 11],
     }),
-    frameRate: 7,
+    frameRate: 5,
     repeat: -1,
   });
 
   this.anims.create({
     key: "down2",
     frames: this.anims.generateFrameNumbers("player2", {
-      start: 0,
-      end: 2,
+      frames: [0, 5],
     }),
     frameRate: 7,
     repeat: -1,
@@ -529,7 +529,7 @@ cena1.create = function () {
         if (timer > 0) {
           direita.setFrame(1);
           player1.setVelocityX(130);
-          player1.anims.play("left1", true);
+          player1.anims.play("right1", true);
         }
       });
       direita.on("pointerout", () => {
@@ -618,7 +618,7 @@ cena1.create = function () {
         if (timer > 0) {
           direita.setFrame(1);
           player2.setVelocityX(70);
-          player2.anims.play("left2", true);
+          player2.anims.play("right2", true);
         }
       });
       direita.on("pointerout", () => {

@@ -14,8 +14,8 @@ cena2.create = function () {
   audiogameover.play();
   audiogameover.setLoop(false);
   
-  this.add.image(400, 400, "final");
-  var button = this.add.image(385, 700, "voltar").setInteractive();
+  this.add.image(800, 400, "final");
+  var button = this.add.image(785, 700, "voltar").setInteractive();
 
   button.on(
     "pointerdown",
