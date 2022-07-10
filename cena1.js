@@ -82,8 +82,8 @@ cena1.preload = function () {
 
   // personagens
   this.load.spritesheet("player1", "./assets/sprite1.png", {
-    frameWidth: 15,
-    frameHeight: 16,
+    frameWidth: 18,
+    frameHeight: 27,
   });
 
   this.load.spritesheet("player2", "./assets/sprite2.png", {
@@ -209,7 +209,7 @@ cena1.create = function () {
   saida = this.physics.add.sprite(800, 10, "saida");
 
   // spawn
-  player1 = this.physics.add.sprite(1000, 670, "player1", 0).setScale(1.2);
+  player1 = this.physics.add.sprite(1000, 670, "player1", 0).setScale(0.5);
   player2 = this.physics.add.sprite(570, 60, "player2", 0).setScale(0.5);
 
   //coletar chaves
@@ -229,8 +229,8 @@ cena1.create = function () {
   this.anims.create({
     key: "left1",
     frames: this.anims.generateFrameNumbers("player1", {
-      start: 3,
-      end: 5,
+      start: 10,
+      end: 13,
     }),
     frameRate: 7,
     repeat: -1,
@@ -240,7 +240,7 @@ cena1.create = function () {
     key: "right1",
     frames: this.anims.generateFrameNumbers("player1", {
       start: 6,
-      end: 8,
+      end: 9,
     }),
     frameRate: 7,
     repeat: -1,
@@ -249,7 +249,8 @@ cena1.create = function () {
   this.anims.create({
     key: "stopped1",
     frames: this.anims.generateFrameNumbers("player1", {
-      frames: [2],
+      start: 0,
+      end: 3,
     }),
     frameRate: 3,
     repeat: -1,
@@ -258,8 +259,8 @@ cena1.create = function () {
   this.anims.create({
     key: "up1",
     frames: this.anims.generateFrameNumbers("player1", {
-      start: 9,
-      end: 11,
+      start: 14,
+      end: 16,
     }),
     frameRate: 7,
     repeat: -1,
@@ -268,8 +269,8 @@ cena1.create = function () {
   this.anims.create({
     key: "down1",
     frames: this.anims.generateFrameNumbers("player1", {
-      start: 0,
-      end: 2,
+      start: 4,
+      end: 5,
     }),
     frameRate: 7,
     repeat: -1,
