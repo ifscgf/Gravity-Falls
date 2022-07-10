@@ -512,7 +512,7 @@ cena1.create = function () {
       // D-Pad: Para cada direção já os eventos
       // para tocar a tela ("pointerover")
       // e ao terminar essa interação ("pointerout")
-      var esquerda = add.image(58, 400, "esquerda", 0).setInteractive();
+      var esquerda = add.image(50, 400, "esquerda", 0).setInteractive().setScale(1.5);
       esquerda.on("pointerover", () => {
         if (timer > 0) {
           esquerda.setFrame(1);
@@ -528,7 +528,7 @@ cena1.create = function () {
         }
       });
 
-      var direita = add.image(150, 400, "direita", 0).setInteractive();
+      var direita = add.image(150, 400, "direita", 0).setInteractive().setScale(1.5);
       direita.on("pointerover", () => {
         if (timer > 0) {
           direita.setFrame(1);
