@@ -489,7 +489,7 @@ cena1.create = function () {
   var add = this.add;
   cameras.main.setBounds(0, 0, 1600, 800);
   camera0 = this.cameras.add(400, 0, 800, 800);
-  camera0.setBounds(415, 15, 800, 800);
+  camera0.setBounds(415, 10, 800, 800);
   camera0.scrollX = 400;
   camera0.scrollY = 0;
 
