@@ -49,6 +49,7 @@ var botaoSala5;
 var botaoSala6;
 var cameras;
 var camera0;
+var endgame;
 
 //Funções para mostrar as telas do jogo
 function aparecerSalas() {
@@ -170,6 +171,7 @@ cena1.preload = function () {
 //música de fundo
 cena1.create = function () {
   timer = -1;
+  endgame = false;
 
   musicagameplay = this.sound.add("musicagameplay");
   coleta = this.sound.add("coleta");
@@ -209,8 +211,8 @@ cena1.create = function () {
   saida = this.physics.add.sprite(800, 10, "saida");
 
   // spawn
-  player1 = this.physics.add.sprite(1000, 670, "player1", 0).setScale(0.5);
-  player2 = this.physics.add.sprite(570, 60, "player2", 0).setScale(0.5);
+  player1 = this.physics.add.sprite(600, 670, "player1", 0).setScale(0.5);
+  player2 = this.physics.add.sprite(600, 650, "player2", 0).setScale(0.5);
 
   //coletar chaves
   this.physics.add.overlap(player1, key, collectKey, null, this);
@@ -220,7 +222,7 @@ cena1.create = function () {
   this.physics.add.overlap(player1, key4, collectKey, null, this);
 
   // Função de colisão entre jogadores
-  this.physics.add.overlap(player1, player2, hitplayer, null, this);
+  this.physics.add.overlap(player1, player2, hitPlayer, null, this);
 
   // Função de colisão entre o jogador 1 e a saída
   this.physics.add.overlap(player1, saida, touchSaida, null, this);
@@ -514,7 +516,10 @@ cena1.create = function () {
       // D-Pad: Para cada direção já os eventos
       // para tocar a tela ("pointerover")
       // e ao terminar essa interação ("pointerout")
-      var esquerda = add.image(50, 400, "esquerda", 0).setInteractive().setScale(1.5);
+      var esquerda = add
+        .image(50, 400, "esquerda", 0)
+        .setInteractive()
+        .setScale(1.5);
       esquerda.on("pointerover", () => {
         if (timer > 0) {
           esquerda.setFrame(1);
@@ -530,7 +535,10 @@ cena1.create = function () {
         }
       });
 
-      var direita = add.image(151, 400, "direita", 0).setInteractive().setScale(1.5);
+      var direita = add
+        .image(151, 400, "direita", 0)
+        .setInteractive()
+        .setScale(1.5);
       direita.on("pointerover", () => {
         if (timer > 0) {
           direita.setFrame(1);
@@ -562,7 +570,10 @@ cena1.create = function () {
         }
       });
 
-       var baixo = add.image(1510, 460, "baixo", 0).setInteractive().setScale(1.5);
+      var baixo = add
+        .image(1510, 460, "baixo", 0)
+        .setInteractive()
+        .setScale(1.5);
       baixo.on("pointerover", () => {
         if (timer > 0) {
           baixo.setFrame(1);
@@ -603,7 +614,10 @@ cena1.create = function () {
       // D-Pad: Para cada direção já os eventos
       // para tocar a tela ("pointerover")
       // e ao terminar essa interação ("pointerout")
-      var esquerda = add.image(50, 400, "esquerda", 0).setInteractive().setScale(1.5);
+      var esquerda = add
+        .image(50, 400, "esquerda", 0)
+        .setInteractive()
+        .setScale(1.5);
       esquerda.on("pointerover", () => {
         if (timer > 0) {
           esquerda.setFrame(1);
@@ -619,7 +633,10 @@ cena1.create = function () {
         }
       });
 
-      var direita = add.image(151, 400, "direita", 0).setInteractive().setScale(1.5);
+      var direita = add
+        .image(151, 400, "direita", 0)
+        .setInteractive()
+        .setScale(1.5);
       direita.on("pointerover", () => {
         if (timer > 0) {
           direita.setFrame(1);
@@ -651,7 +668,10 @@ cena1.create = function () {
         }
       });
 
-      var baixo = add.image(1510, 460, "baixo", 0).setInteractive().setScale(1.5);
+      var baixo = add
+        .image(1510, 460, "baixo", 0)
+        .setInteractive()
+        .setScale(1.5);
       baixo.on("pointerover", () => {
         if (timer > 0) {
           baixo.setFrame(1);
@@ -669,7 +689,6 @@ cena1.create = function () {
 
       camera0.setZoom(2);
       camera0.startFollow(player2);
-
 
       navigator.mediaDevices
         .getUserMedia({ video: false, audio: true })
@@ -694,6 +713,13 @@ cena1.create = function () {
             });
         })
         .catch((error) => console.log(error));
+    }
+
+    if (jogador === 2) {
+      socket.on("cena2", () => {
+        this.scene.stop(cena1);
+        this.scene.start(cena2);
+      });
     }
 
     // Os dois jogadores estão conectados
@@ -754,6 +780,26 @@ cena1.create = function () {
 };
 
 cena1.update = function (time, delta) {
+  if (endgame === true) {
+    musicagameplay.stop();
+    this.scene.stop(cena1);
+    this.scene.start(cena2);
+  }
+
+  if (inventory === 5 && timer > 0 && endgame === false) {
+    musicagameplay.stop();
+    this.scene.stop(cena1);
+    this.scene.start(cena3);
+  }
+
+  if (timer === 0) {
+    musicagameplay.stop();
+    this.scene.stop(cena1);
+    this.scene.start(cena2);
+  }
+
+
+
   // Controle dos personagens por toque
   let frame;
   if (jogador === 1) {
@@ -785,30 +831,20 @@ cena1.update = function (time, delta) {
   }
 };
 
-//Condições vitória e derrota
-function touchSaida(player1, saida) {
-  if (inventory === 5 && timer > 0) {
-    musicagameplay.stop();
-    this.scene.stop(cena1);
-    this.scene.start(cena3);
-  } else if (timer === 0) {
-    musicagameplay.stop();
-    this.scene.stop(cena1);
-    this.scene.start(cena2);
-  }
-}
-
 function countdown() {
   //Contador decrementa em 1 segundo
   timer -= 1;
   timerText.setText(timer);
 }
 
+function touchSaida(player1, saida) {
+  endgame = false;
+}
+
 //Jogador 1 perde se encostar no Jogador 2
-function hitplayer(player1, player2) {
-  musicagameplay.stop();
-  this.scene.stop();
-  this.scene.start(cena2);
+function hitPlayer(player1, player2) {
+  endgame = true;
+  socket.emit("cena2", sala);
 }
 
 function collectKey(player1, key) {
