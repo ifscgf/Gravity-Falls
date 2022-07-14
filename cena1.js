@@ -718,7 +718,7 @@ cena1.create = function () {
 
     if (jogador === 2) {
       socket.on("cena2", () => {
-        this.scene.stop(cena1);
+        //this.scene.stop(cena1);
         this.scene.start(cena2);
       });
     }
