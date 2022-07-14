@@ -211,8 +211,8 @@ cena1.create = function () {
   saida = this.physics.add.sprite(800, 10, "saida");
 
   // spawn
-  player1 = this.physics.add.sprite(600, 670, "player1", 0).setScale(0.5);
-  player2 = this.physics.add.sprite(600, 650, "player2", 0).setScale(0.5);
+  player1 = this.physics.add.sprite(1000, 670, "player1", 0).setScale(0.5);
+  player2 = this.physics.add.sprite(450, 100, "player2", 0).setScale(0.5);
 
   //coletar chaves
   this.physics.add.overlap(player1, key, collectKey, null, this);
@@ -716,13 +716,6 @@ cena1.create = function () {
         .catch((error) => console.log(error));
     }
 
-    if (jogador === 2) {
-      socket.on("cena2", () => {
-        //this.scene.stop(cena1);
-        this.scene.start(cena2);
-      });
-    }
-
     // Os dois jogadores estão conectados
     console.log(jogadores);
     if (jogadores.primeiro !== undefined && jogadores.segundo !== undefined) {
@@ -781,25 +774,6 @@ cena1.create = function () {
 };
 
 cena1.update = function (time, delta) {
-  if (endgame === true) {
-    musicagameplay.stop();
-    this.scene.stop(cena1);
-    this.scene.start(cena2);
-  }
-
-  if (inventory === 5 && timer > 0 && endgame === false) {
-    musicagameplay.stop();
-    this.scene.stop(cena1);
-    this.scene.start(cena3);
-  }
-
-  if (timer === 0) {
-    musicagameplay.stop();
-    this.scene.stop(cena1);
-    this.scene.start(cena2);
-  }
-
-
 
   // Controle dos personagens por toque
   let frame;
@@ -830,6 +804,39 @@ cena1.update = function (time, delta) {
       y: player2.body.y,
     });
   }
+
+  if (endgame === true) {
+   socket.emit("estadoDoJogador", sala, {
+     frame: frame,
+     x: player2.body.x,
+     y: player2.body.y,
+   });
+   musicagameplay.stop();
+   this.scene.start(cena2);
+ }
+
+  if (inventory === 5 && timer > 0 && endgame === false) {
+   socket.emit("estadoDoJogador", sala, {
+     frame: frame,
+     x: player2.body.x,
+     y: player2.body.y,
+   });
+   musicagameplay.stop();
+   this.scene.start(cena3);
+ }
+
+  if (timer === 0) {
+   socket.emit("estadoDoJogador", sala, {
+     frame: frame,
+     x: player2.body.x,
+     y: player2.body.y,
+   });
+   musicagameplay.stop();
+   this.scene.start(cena2);
+ }
+
+
+
 };
 
 function countdown() {
@@ -845,7 +852,6 @@ function touchSaida(player1, saida) {
 //Jogador 1 perde se encostar no Jogador 2
 function hitPlayer(player1, player2) {
   endgame = true;
-  socket.emit("cena2", sala);
 }
 
 function collectKey(player1, key) {

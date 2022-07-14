@@ -53,10 +53,6 @@ io.on("connection", (socket) => {
   socket.on("estadoDoJogador", (sala, estado) => {
     socket.broadcast.to(sala).emit("desenharOutroJogador", estado);
   });
-  //Envia a informação para trocar a cena para o jogador 2
-  socket.on("cena2", (sala) => {
-    socket.broadcast.to(sala).emit("cena2");
-  });
 });
 
 // Abrir porta para HTTPS/WSS
