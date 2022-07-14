@@ -371,7 +371,8 @@ cena1.create = function () {
   );
 
   // Conectar no servidor via WebSocket
-  socket = io("https://hidden-brook-30522.herokuapp.com/");
+  socket = io("https://young-atoll-91561.herokuapp.com/");
+  //socket = io("https://hidden-brook-30522.herokuapp.com/");
   var textMsg = this.add.text(200, 30, "SALAS", {
     font: "60px Courier",
     fill: "#ffffff",
