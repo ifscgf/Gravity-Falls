@@ -814,7 +814,7 @@ cena1.update = function (time, delta) {
    this.scene.start(cena2);
  }
 
-  if (inventory === 5 && timer > 0 && endgame === false) {
+  if (touchSaida === true && inventory === 5 && timer > 0 && endgame === false) {
    socket.emit("estadoDoJogador", sala, {
      frame: frame,
      x: player2.body.x,
