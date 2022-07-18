@@ -517,9 +517,9 @@ cena1.create = function () {
       // para tocar a tela ("pointerover")
       // e ao terminar essa interação ("pointerout")
       var esquerda = add
-        .image(50, 400, "esquerda", 0)
+        .image(90, 490, "esquerda", 0)
         .setInteractive()
-        .setScale(1.5);
+        .setScale(2.0);
       esquerda.on("pointerover", () => {
         if (timer > 0) {
           esquerda.setFrame(1);
@@ -536,9 +536,9 @@ cena1.create = function () {
       });
 
       var direita = add
-        .image(151, 400, "direita", 0)
+        .image(90, 330, "direita", 0)
         .setInteractive()
-        .setScale(1.5);
+        .setScale(2.0);
       direita.on("pointerover", () => {
         if (timer > 0) {
           direita.setFrame(1);
@@ -554,7 +554,7 @@ cena1.create = function () {
         }
       });
 
-      var cima = add.image(1510, 330, "cima", 0).setInteractive().setScale(1.5);
+      var cima = add.image(1510, 330, "cima", 0).setInteractive().setScale(2.0);
       cima.on("pointerover", () => {
         if (timer > 0) {
           cima.setFrame(1);
@@ -573,7 +573,7 @@ cena1.create = function () {
       var baixo = add
         .image(1510, 460, "baixo", 0)
         .setInteractive()
-        .setScale(1.5);
+        .setScale(2.0);
       baixo.on("pointerover", () => {
         if (timer > 0) {
           baixo.setFrame(1);
@@ -615,9 +615,9 @@ cena1.create = function () {
       // para tocar a tela ("pointerover")
       // e ao terminar essa interação ("pointerout")
       var esquerda = add
-        .image(50, 400, "esquerda", 0)
+        .image(90, 490, "esquerda", 0)
         .setInteractive()
-        .setScale(1.5);
+        .setScale(2.0);
       esquerda.on("pointerover", () => {
         if (timer > 0) {
           esquerda.setFrame(1);
@@ -634,9 +634,9 @@ cena1.create = function () {
       });
 
       var direita = add
-        .image(151, 400, "direita", 0)
+        .image(90, 330, "direita", 0)
         .setInteractive()
-        .setScale(1.5);
+        .setScale(2.0);
       direita.on("pointerover", () => {
         if (timer > 0) {
           direita.setFrame(1);
@@ -652,7 +652,7 @@ cena1.create = function () {
         }
       });
 
-      var cima = add.image(1510, 330, "cima", 0).setInteractive().setScale(1.5);
+      var cima = add.image(1510, 330, "cima", 0).setInteractive().setScale(2.0);
       cima.on("pointerover", () => {
         if (timer > 0) {
           cima.setFrame(1);
@@ -671,7 +671,7 @@ cena1.create = function () {
       var baixo = add
         .image(1510, 460, "baixo", 0)
         .setInteractive()
-        .setScale(1.5);
+        .setScale(2.0);
       baixo.on("pointerover", () => {
         if (timer > 0) {
           baixo.setFrame(1);
