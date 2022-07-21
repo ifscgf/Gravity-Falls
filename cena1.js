@@ -177,6 +177,7 @@ cena1.create = function () {
   coleta = this.sound.add("coleta");
 
   musicagameplay.play();
+  musicagameplay.setVolume(0.5);
   musicagameplay.setLoop(true);
 
   // imagem de fundo
